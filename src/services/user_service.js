@@ -4,27 +4,138 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const salthash = 3;
 
-// Tạo user
-const create_user_service = async (name, pass) => {
+const checkUserEmail = async (email) => {
     try {
-        const hashedPass = await bcrypt.hash(pass, salthash);
-        const sql = `INSERT INTO usera (username, pass, age) VALUES (?, ?, ?)`;
-        const [result] = await poolPromise.query(sql, [name, hashedPass, 18]);
-        return result;
+        const [rows] = await poolPromise.query("SELECT * FROM taikhoan WHERE email = ?", [email]);
+        return rows.length > 0;
+    } catch (error) {
+        console.error('Lỗi khi kiểm tra email:', error);
+        throw error;
+    }
+};
+// Tạo user
+const create_user_service = async (data) => {
+    const { hoTen, email, chucVu, donViCongTac, trangThai } = data;
+
+    if (!hoTen || !email || !chucVu || !donViCongTac || !trangThai) {
+        return {
+            errCode: 1,
+            message: 'Thiếu một hoặc nhiều tham số đầu vào'
+        };
+    }
+
+    try {
+        const emailExists = await checkUserEmail(email);
+        if (emailExists) {
+            return {
+                errCode: 1,
+                errMessage: "Địa chỉ email đã được sử dụng, vui lòng nhập email khác"
+            };
+        }
+
+        const defaultPassword = '123456';
+        const hashedPassword = await bcrypt.hash(defaultPassword, salthash);
+
+        const sql = `
+            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        const [result] = await poolPromise.query(sql, [
+            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai
+        ]);
+
+        return {
+            errCode: 0,
+            message: 'Tạo người dùng thành công',
+            insertId: result.insertId
+        };
+
     } catch (e) {
-        console.error(e);
-        throw new Error('Error while creating user');
+        console.error('Lỗi khi tạo người dùng:', e);
+        throw new Error('Đã xảy ra lỗi khi tạo người dùng');
+    }
+};
+
+const edit_user_service = async (data) => {
+    const { id, hoTen, email, chucVu, donViCongTac, trangThai } = data;
+
+    if (!id || !hoTen || !email || !chucVu || !donViCongTac || !trangThai) {
+        return {
+            errCode: 1,
+            message: 'Thiếu một hoặc nhiều tham số đầu vào'
+        };
+    }
+
+    try {
+        const sql = `
+            UPDATE taikhoan
+            SET hoTen = ?, email = ?, chucVu = ?, donViCongTac = ?, trangThai = ?
+            WHERE id = ?
+        `;
+        const [result] = await poolPromise.query(sql, [
+            hoTen, email, chucVu, donViCongTac, trangThai, id
+        ]);
+
+        if (result.affectedRows === 0) {
+            return {
+                errCode: 1,
+                message: 'Không tìm thấy người dùng để cập nhật'
+            };
+        }
+
+        return {
+            errCode: 0,
+            message: 'Cập nhật người dùng thành công'
+        };
+
+    } catch (e) {
+        console.error('Lỗi khi cập nhật người dùng:', e);
+        throw new Error('Đã xảy ra lỗi khi cập nhật người dùng');
     }
 };
 
 // Lấy tất cả user
-const get_user_service = async () => {
+const get_user_service = async (userId) => {
     try {
-        const [rows] = await poolPromise.query("SELECT * FROM usera");
+        let query, params;
+
+        if (userId === 'ALL') {
+            query = "SELECT id, hoTen, email,chucVu,donViCongTac,trangThai,maVaiTro FROM taikhoan"; // không lấy mật khẩu
+            params = [];
+        } else {
+            query = "SELECT id, hoTen, email,chucVu,donViCongTac,trangThai,maVaiTro FROM taikhoan WHERE id = ?";
+            params = [userId];
+        }
+
+        const [rows] = await poolPromise.query(query, params);
         return rows;
     } catch (e) {
         console.error('Error occurred in get_user_service:', e);
         throw new Error("Unable to retrieve users");
+    }
+};
+
+const delete_user_service = async (userId) => {
+    try {
+        // Kiểm tra xem user có tồn tại không
+        const [rows] = await poolPromise.query("SELECT * FROM TaiKhoan WHERE id = ?", [userId]);
+        if (rows.length === 0) {
+            return {
+                errCode: 2,
+                errMessage: 'Người dùng không tồn tại',
+            };
+        }
+
+        // Xóa user
+        await poolPromise.query("DELETE FROM TaiKhoan WHERE id = ?", [userId]);
+
+        return {
+            errCode: 0,
+            message: 'Người dùng đã được xóa',
+        };
+    } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+        throw new Error('Đã xảy ra lỗi khi xóa người dùng');
     }
 };
 
@@ -72,6 +183,9 @@ const login_user_service = async (name, pass) => {
 
 module.exports = {
     create_user_service,
+    edit_user_service,
+    delete_user_service,
     login_user_service,
     get_user_service
+    
 };
