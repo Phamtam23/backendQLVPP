@@ -37,11 +37,11 @@ const create_user_service = async (data) => {
         const hashedPassword = await bcrypt.hash(defaultPassword, salthash);
 
         const sql = `
-            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai,maVaiTro)
+            VALUES (?, ?, ?, ?, ?, ?, ? )
         `;
         const [result] = await poolPromise.query(sql, [
-            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai
+            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai,7 // Mặc định maVaiTro là 7
         ]);
 
         return {
@@ -140,11 +140,11 @@ const delete_user_service = async (userId) => {
 };
 
 // Đăng nhập user
-const login_user_service = async (name, pass) => {
+const login_user_service = async (email, password) => {
     try {
         const [rows] = await poolPromise.query(
-            "SELECT * FROM usera WHERE username = ?",
-            [name]
+            "SELECT * FROM TaiKhoan WHERE email = ?",
+            [email]
         );
 
         const user = rows[0];
@@ -153,15 +153,19 @@ const login_user_service = async (name, pass) => {
             return { EC: 1, EM: "Tên đăng nhập không tồn tại" };
         }
 
-        const isMatch = await bcrypt.compare(pass, user.pass);
+        const isMatch = await bcrypt.compare(password, user.matKhau);
 
         if (!isMatch) {
             return { EC: 2, EM: "Mật khẩu không đúng" };
         }
 
         const payload = {
-            name: user.username,
-            age: user.age
+            email: user.email,
+            hoTen:user.hoTen,
+            chucVu: user.chucVu,
+            donViCongTac: user.donViCongTac,
+            trangThai: user.trangThai,
+            maVaiTro: user.maVaiTro,
         };
 
         const access_token = jwt.sign(
@@ -177,8 +181,10 @@ const login_user_service = async (name, pass) => {
         };
     } catch (e) {
         console.error("Login service error:", e);
+        console.error(e.stack); // Thêm dòng này
         return { EC: 3, EM: "Lỗi server khi đăng nhập" };
     }
+
 };
 
 module.exports = {

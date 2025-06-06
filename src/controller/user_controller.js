@@ -100,8 +100,8 @@ let delete_user = async(req,res)=>{
 // Xử lý đăng nhập
 const handlogin = async (req, res) => {
     try {
-        const { name, pass } = req.body;
-        const data = await login_user_service(name, pass);
+        const { email, password } = req.body;
+        const data = await login_user_service(email, password);
         if (data.EC === 0) {    
             return res.status(200).json(data);
         } else {
