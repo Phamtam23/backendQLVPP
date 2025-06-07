@@ -114,6 +114,25 @@ const get_user_service = async (userId) => {
         throw new Error("Unable to retrieve users");
     }
 };
+const get_role_users_service = async (userId) => {
+    try {
+        let query, params;
+
+        if (userId === 'ALL') {
+            query = "SELECT tk.id, tk.hoTen, tk.email, pq.tenVaiTro, pq.Quyen FROM taikhoan tk JOIN phanquyen pq ON tk.maVaiTro = pq.maVaiTro";
+            params = [];
+        } else {
+            query = "SELECT tk.id, tk.hoTen, tk.email, pq.tenVaiTro, pq.Quyen FROM taikhoan tk JOIN phanquyen pq ON tk.maVaiTro = pq.maVaiTro WHERE tk.id = ?";
+            params = [userId];
+        }
+
+        const [rows] = await poolPromise.query(query, params);
+        return rows;
+    } catch (e) {
+        console.error('Error occurred in get_user_service:', e);
+        throw new Error("Unable to retrieve users");
+    }
+};
 
 const delete_user_service = async (userId) => {
     try {
@@ -192,6 +211,6 @@ module.exports = {
     edit_user_service,
     delete_user_service,
     login_user_service,
-    get_user_service
-    
+    get_user_service,
+    get_role_users_service
 };

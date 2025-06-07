@@ -6,7 +6,8 @@ const {
     edit_user_service,
     delete_user_service,
     login_user_service,
-    get_user_service
+    get_user_service,
+    get_role_users_service
 } = require('../services/user_service');
 
 // Lấy danh sách tất cả user
@@ -46,7 +47,42 @@ const get_user = async (req, res) => {
         });
     }
 };
+const get_role = async (req, res) => {
+    const id = req.query.id;
 
+    if (!id) {
+        return res.status(400).json({
+            errCode: 1,
+            message: 'Thiếu tham số đầu vào (id)',
+            users: []
+        });
+    }
+
+    try {
+        const data = await get_role_users_service(id);
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({
+                errCode: 2,
+                message: 'Không tìm thấy người dùng',
+                users: []
+            });
+        }
+
+        return res.status(200).json({
+            errCode: 0,
+            message: 'Lấy dữ liệu thành công',
+            users: data
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu người dùng:', error);
+        return res.status(500).json({
+            errCode: 3,
+            message: 'Đã xảy ra lỗi phía server: ' + error.message,
+            users: []
+        });
+    }
+};
 
 // Lấy thông tin tài khoản đã xác thực (từ middleware JWT)
 const get_account = async (req, res) => {
@@ -84,7 +120,20 @@ let edit_user = async (req, res) => {
         });
     }
 };
-
+let change_role = async (req, res) => {
+    try {
+        const { userId, maVaiTro } = req.body;
+        const message = await change_role_service(userId,maVaiTro);
+        return res.status(200).json(message);
+    } catch (error) {
+        console.error('Error in change_role:', error);
+        return res.status(500).json({
+            errCode: 2,
+            message: 'Đã xảy ra lỗi khi đổi quyền người dùng',
+            error: error.message
+        });
+    }
+};
 let delete_user = async(req,res)=>{
     if(!req.body.id){
         return res.status(200).json({
@@ -119,5 +168,7 @@ module.exports = {
     edit_user,
     delete_user,
     handlogin,
-    get_account
+    get_account,
+    get_role,
+    change_role
 };
