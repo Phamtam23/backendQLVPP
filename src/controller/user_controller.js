@@ -7,7 +7,8 @@ const {
     delete_user_service,
     login_user_service,
     get_user_service,
-    get_role_users_service
+    get_role_users_service,
+    change_role_service
 } = require('../services/user_service');
 
 // Lấy danh sách tất cả user
@@ -120,11 +121,11 @@ let edit_user = async (req, res) => {
         });
     }
 };
-let change_role = async (req, res) => {
+const change_role = async (req, res) => {
     try {
         const { userId, maVaiTro } = req.body;
-        const message = await change_role_service(userId,maVaiTro);
-        return res.status(200).json(message);
+        const message = await change_role_service(userId, maVaiTro);
+        return res.status(200).json(message); 
     } catch (error) {
         console.error('Error in change_role:', error);
         return res.status(500).json({
@@ -134,11 +135,12 @@ let change_role = async (req, res) => {
         });
     }
 };
+
 let delete_user = async(req,res)=>{
     if(!req.body.id){
         return res.status(200).json({
            errCode:1,
-           errMessage:"Thiếu tham số đầu vào" 
+           message:"Thiếu tham số đầu vào" 
         })
     }
     let message = await delete_user_service(req.body.id);

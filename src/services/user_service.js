@@ -93,7 +93,40 @@ const edit_user_service = async (data) => {
         throw new Error('Đã xảy ra lỗi khi cập nhật người dùng');
     }
 };
+const change_role_service = async (userId, maVaiTro) => {
+    if (!userId || !maVaiTro) {
+        return {
+            errCode: 1,
+            message: 'Thiếu userId hoặc maVaiTro'
+        };
+    }
 
+    try {
+        const sql = `
+            UPDATE taikhoan
+            SET maVaiTro = ?
+            WHERE id = ?
+        `;
+
+        const [result] = await poolPromise.query(sql, [maVaiTro, userId]);
+
+        if (result.affectedRows === 0) {
+            return {
+                errCode: 1,
+                message: 'Không tìm thấy người dùng để cập nhật vai trò'
+            };
+        }
+
+        return {
+            errCode: 0,
+            message: 'Cập nhật vai trò người dùng thành công'
+        };
+
+    } catch (e) {
+        console.error('Lỗi khi cập nhật vai trò người dùng:', e);
+        throw new Error('Đã xảy ra lỗi khi cập nhật vai trò người dùng');
+    }
+};
 // Lấy tất cả user
 const get_user_service = async (userId) => {
     try {
@@ -212,5 +245,6 @@ module.exports = {
     delete_user_service,
     login_user_service,
     get_user_service,
-    get_role_users_service
+    get_role_users_service,
+    change_role_service
 };
