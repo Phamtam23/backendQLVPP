@@ -3,7 +3,7 @@ const routerAPI = express.Router();
 const { change_role,get_role,create_user,get_user,edit_user,delete_user,handlogin,get_account } = require('../controller/user_controller');
 const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
 const { create_yeucau } = require('../controller/guiyeucau_controller');
-
+const { get_thietbi, get_phong } = require('../controller/thietbi_controller');
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
@@ -23,6 +23,10 @@ routerAPI.put('/change-role-user',change_role);
 
 //Gửi yêu cầu mua sắm hoặc sửa chữa
 routerAPI.post('/create-yeucau', create_yeucau);
+
+//Lây danh sách thiết bị
+routerAPI.get('/get_thietbi', get_thietbi);
+routerAPI.get('/get_phong', get_phong);
 
 
 routerAPI.get('/account',get_account)

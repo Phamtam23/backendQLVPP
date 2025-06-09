@@ -212,6 +212,7 @@ const login_user_service = async (email, password) => {
         }
 
         const payload = {
+            id: user.id,
             email: user.email,
             hoTen:user.hoTen,
             chucVu: user.chucVu,

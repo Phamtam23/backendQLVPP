@@ -14,7 +14,7 @@ const create_yeucau_service = async (data) => {
         moTaChiTiet,
         tenVatDung,
         soLuong,
-        maSanPham,
+        maThietBi,
         tinhTrangThietBi,
         hinhAnhSuaChua,
         createdAt
@@ -37,7 +37,7 @@ const create_yeucau_service = async (data) => {
             };
         }
     } else if (loaiYeuCau.toLowerCase() === 'sửa chữa') {
-        if (!maSanPham || !tinhTrangThietBi || !hinhAnhSuaChua) {
+        if (!maThietBi || !tinhTrangThietBi || !hinhAnhSuaChua) {
             return {
                 errCode: 1,
                 message: 'Thiếu mã sản phẩm, tình trạng thiết bị hoặc hình ảnh sản phẩm cho yêu cầu sửa chữa'
@@ -54,7 +54,7 @@ const create_yeucau_service = async (data) => {
         const sql = `
             INSERT INTO yeucau (
                 lyDoDeXuat, maTaiKhoan, trangThai, ngayDuyet, loaiYeuCau,
-                moTaChiTiet, tenVatDung, soLuong, maSanPham, tinhTrangThietBi,
+                moTaChiTiet, tenVatDung, soLuong, maThietBi, tinhTrangThietBi,
                 hinhAnhSuaChua, createdAt
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
@@ -68,7 +68,7 @@ const create_yeucau_service = async (data) => {
             moTaChiTiet || null,
             tenVatDung || null,
             soLuong || null,
-            maSanPham || null,
+            maThietBi || null,
             tinhTrangThietBi || null,
             hinhAnhSuaChua || null,
             createdAt || new Date()
