@@ -1,6 +1,6 @@
 const express = require('express');
 const { poolPromise, sql } = require('../router/conect');
-const { PollingQuery } = require('msnodesqlv8');
+// const { PollingQuery } = require('msnodesqlv8');
 const {
     create_user_service,
     edit_user_service,
