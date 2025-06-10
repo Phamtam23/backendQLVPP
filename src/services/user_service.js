@@ -37,11 +37,11 @@ const create_user_service = async (data) => {
         const hashedPassword = await bcrypt.hash(defaultPassword, salthash);
 
         const sql = `
-            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai,maVaiTro)
-            VALUES (?, ?, ?, ?, ?, ?, ? )
+            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai, maVaiTro, createdAt)
+            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
         `;
         const [result] = await poolPromise.query(sql, [
-            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai,7 // Mặc định maVaiTro là 7
+            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai, 7 // Mặc định maVaiTro là 7
         ]);
 
         return {
@@ -55,7 +55,6 @@ const create_user_service = async (data) => {
         throw new Error('Đã xảy ra lỗi khi tạo người dùng');
     }
 };
-
 const edit_user_service = async (data) => {
     const { id, hoTen, email, chucVu, donViCongTac, trangThai } = data;
 
