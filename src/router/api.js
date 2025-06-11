@@ -4,8 +4,8 @@ const { change_role,get_role,create_user,get_user,edit_user,delete_user,handlogi
 const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
 const { create_yeucau } = require('../controller/guiyeucau_controller');
 const { get_thietbi, get_phong } = require('../controller/thietbi_controller');
-const { get_nhathau } = require('../controller/nhathau_controller');
-const { get_hopdong } = require('../controller/hopdong_controller');
+const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
+const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
@@ -41,8 +41,8 @@ routerAPI.get('/getkehoach',get_chitietkehoach)
 
 //Nha thau
 routerAPI.get('/getDsNhaThau', get_nhathau)
-
+routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
 //Hop dong
 routerAPI.get('/getDsHopDong', get_hopdong)
-
+routerAPI.get('/getChiTietHopDong/:id', get_hopdongById)
 module.exports = routerAPI;

@@ -195,7 +195,7 @@ const delete_user_service = async (userId) => {
 const login_user_service = async (email, password) => {
     try {
         const [rows] = await poolPromise.query(
-            "SELECT * FROM TaiKhoan WHERE email = ?",
+            "SELECT * FROM taikhoan WHERE email = ?",
             [email]
         );
 

@@ -19,7 +19,7 @@ const get_nhathau_by_id_service = async (id) => {
             SELECT nhathau.*, tenLinhVuc 
             FROM nhathau 
             INNER JOIN linhvuc ON nhathau.maLinhVuc = linhvuc.maLinhVuc 
-            WHERE nhathau.id = ?
+            WHERE nhathau.maNhaThau = ?
         `;
         const params = [id];
         const [rows] = await poolPromise.query(query, params);
