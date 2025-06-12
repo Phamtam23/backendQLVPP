@@ -6,6 +6,8 @@ const { create_yeucau } = require('../controller/guiyeucau_controller');
 const { get_thietbi, get_phong } = require('../controller/thietbi_controller');
 const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
 const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
+const { get_linhvuc } = require('../controller/linhvuc_controller');
+const { getDashboardData } = require('../controller/dashboard_controller');
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
@@ -45,4 +47,10 @@ routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
 //Hop dong
 routerAPI.get('/getDsHopDong', get_hopdong)
 routerAPI.get('/getChiTietHopDong/:id', get_hopdongById)
+
+//Linh vuc
+routerAPI.get('/getDsLinhVuc', get_linhvuc)
+
+//Dashboard
+routerAPI.get('/dashboard', getDashboardData);
 module.exports = routerAPI;

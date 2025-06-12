@@ -3,7 +3,7 @@ const { poolPromise } = require('../router/conect');
 const get_all_hopdong_service = async () => {
    try {
         let query, params;
-            query = "SELECT hopdong.*, tenNhaThau FROM hopdong inner join phiendauthau on hopdong.maPhienDauThau = phiendauthau.maPhienDauThau inner join nhathau on phiendauthau.maNhaThau = nhathau.maNhaThau"; 
+            query = "SELECT hopdong.*, tenNhaThau, maLinhVuc FROM hopdong inner join phiendauthau on hopdong.maPhienDauThau = phiendauthau.maPhienDauThau inner join nhathau on phiendauthau.maNhaThau = nhathau.maNhaThau"; 
             params = [];
         const [rows] = await poolPromise.query(query, params);
         return rows;
