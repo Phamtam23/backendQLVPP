@@ -1,9 +1,7 @@
 const { poolPromise } = require('../router/conect');
 require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const salthash = 3;
-// Tạo user
+
+// Tạo yêu cầu
 const create_yeucau_service = async (data) => {
     const {
         lyDoDeXuat,
@@ -37,12 +35,13 @@ const create_yeucau_service = async (data) => {
             };
         }
     } else if (loaiYeuCau.toLowerCase() === 'sửa chữa') {
-        if (!maThietBi || !tinhTrangThietBi || !hinhAnhSuaChua) {
+        if (!maThietBi || !tinhTrangThietBi) {
             return {
                 errCode: 1,
-                message: 'Thiếu mã sản phẩm, tình trạng thiết bị hoặc hình ảnh sản phẩm cho yêu cầu sửa chữa'
+                message: 'Thiếu mã sản phẩm hoặc tình trạng thiết bị cho yêu cầu sửa chữa'
             };
         }
+        // Lưu ý: hinhAnhSuaChua có thể được gán từ controller nếu có file upload
     } else {
         return {
             errCode: 1,
@@ -85,7 +84,6 @@ const create_yeucau_service = async (data) => {
         throw new Error('Đã xảy ra lỗi khi tạo yêu cầu');
     }
 };
-
 
 module.exports = {
     create_yeucau_service,

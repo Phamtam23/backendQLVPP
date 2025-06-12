@@ -55,7 +55,6 @@ const create_user_service = async (data) => {
         throw new Error('Đã xảy ra lỗi khi tạo người dùng');
     }
 };
-
 const edit_user_service = async (data) => {
     const { id, hoTen, email, chucVu, donViCongTac, trangThai } = data;
 

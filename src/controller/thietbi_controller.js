@@ -1,6 +1,7 @@
 const {
     get_all_thietbi_service,
     get_all_phong_service,
+    get_all_danhmuc_service,
 } = require('../services/thietbi_service');
 
 let get_thietbi = async (req, res) => {
@@ -37,7 +38,25 @@ let get_phong = async (req, res) => {
         });
     }
 };
+let get_danhmuc = async (req, res) => {
+    try {
+        const data = await get_all_danhmuc_service();
+        return res.status(200).json({
+            errCode: 0,
+            message: 'Lấy dữ liệu thành công',
+            danhsachdanhmuc: data
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu phòng:', error);
+        return res.status(500).json({
+            errCode: 3,
+            message: 'Đã xảy ra lỗi phía server: ' + error.message,
+            danhsachphong: []
+        });
+    }
+};
 module.exports = {
     get_thietbi,
-    get_phong
+    get_phong,
+    get_danhmuc,
 };
