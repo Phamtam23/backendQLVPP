@@ -3,7 +3,7 @@ const routerAPI = express.Router();
 const { change_role, get_role, create_user, get_user, edit_user, delete_user, handlogin, get_account } = require('../controller/user_controller');
 const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
 const { create_yeucau } = require('../controller/guiyeucau_controller');
-const { get_thietbi, get_phong, get_danhmuc } = require('../controller/thietbi_controller');
+const { get_thietbi, get_phong, get_danhmuc, create_thietbi,edit_thietbi,delete_thietbi } = require('../controller/thietbi_controller');
 const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
 const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
 const { get_linhvuc } = require('../controller/linhvuc_controller');
@@ -35,6 +35,9 @@ routerAPI.post('/create-yeucau', upload.single('file'), create_yeucau);
 routerAPI.get('/get_thietbi', get_thietbi);
 routerAPI.get('/get_phong', get_phong);
 routerAPI.get('/get_danhmuc', get_danhmuc);
+routerAPI.post('/create-new-thietbi', upload.single('file'),create_thietbi);
+routerAPI.put('/edit-thietbi',upload.single('file'), edit_thietbi);
+routerAPI.delete('/delete-thietbi', delete_thietbi);
 
 
 // Account
