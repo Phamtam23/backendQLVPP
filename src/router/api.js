@@ -3,10 +3,21 @@ const routerAPI = express.Router();
 const { change_role, get_role, create_user, get_user, edit_user, delete_user, handlogin, get_account } = require('../controller/user_controller');
 const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
 const { create_yeucau } = require('../controller/guiyeucau_controller');
+<<<<<<< HEAD
+const { get_thietbi, get_phong } = require('../controller/thietbi_controller');
+const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
+const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
+const { get_linhvuc } = require('../controller/linhvuc_controller');
+const { getDashboardData } = require('../controller/dashboard_controller');
+//const auth=require('../midderwaler/auth')
+//const delay=require('../midderwaler/delay')
+//routerAPI.all("*",auth)
+=======
 const { get_thietbi, get_phong,get_danhmuc } = require('../controller/thietbi_controller');
 
 // Import upload middleware
 const upload = require('../middleware/upload');
+>>>>>>> master
 
 // Xử lý đăng nhập
 routerAPI.post('/login', handlogin);
@@ -37,4 +48,21 @@ routerAPI.get('/account', get_account);
 routerAPI.get('/getdskehoach', get_dskehoach);
 routerAPI.get('/getkehoach', get_chitietkehoach);
 
+//kế hoạch
+
+routerAPI.get('/getdskehoach',get_dskehoach)
+routerAPI.get('/getkehoach',get_chitietkehoach)
+
+//Nha thau
+routerAPI.get('/getDsNhaThau', get_nhathau)
+routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
+//Hop dong
+routerAPI.get('/getDsHopDong', get_hopdong)
+routerAPI.get('/getChiTietHopDong/:id', get_hopdongById)
+
+//Linh vuc
+routerAPI.get('/getDsLinhVuc', get_linhvuc)
+
+//Dashboard
+routerAPI.get('/dashboard', getDashboardData);
 module.exports = routerAPI;
