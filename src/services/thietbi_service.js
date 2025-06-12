@@ -1,17 +1,25 @@
 const { poolPromise } = require('../router/conect');
 
-const get_all_thietbi_service = async () => {
-   try {
+const get_all_thietbi_service = async (idDanhMuc) => {
+    try {
         let query, params;
-            query = "SELECT * FROM thietbi"; 
+
+        if (idDanhMuc) {
+            query = "SELECT * FROM thietbi WHERE maDanhMuc = ?";
+            params = [idDanhMuc];
+        } else {
+            query = "SELECT * FROM thietbi";
             params = [];
+        }
+
         const [rows] = await poolPromise.query(query, params);
         return rows;
     } catch (e) {
-        console.error('Error occurred in get_thieibi_service:', e);
+        console.error('Error occurred in get_thietbi_service:', e);
         throw new Error("Unable to retrieve equipments");
     }
 };
+
 
 const get_all_phong_service = async () => {
    try {
@@ -25,11 +33,16 @@ const get_all_phong_service = async () => {
         throw new Error("Unable to retrieve departments");
     }
 };
-const get_all_danhmuc_service = async () => {
+const get_all_danhmuc_service = async (idDanhMuc) => {
     try {
         let query, params;
+         if (idDanhMuc) {
+            query = "SELECT * FROM danhmuc WHERE maDanhMuc = ?";
+            params = [idDanhMuc];
+        } else {
             query = "SELECT *  FROM danhmuc"; 
             params = [];
+        }
         const [rows] = await poolPromise.query(query, params);
         return rows;
     } catch (e) {

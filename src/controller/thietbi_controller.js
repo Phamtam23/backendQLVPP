@@ -6,7 +6,10 @@ const {
 
 let get_thietbi = async (req, res) => {
     try {
-        const data = await get_all_thietbi_service();
+        const idDanhMuc = req.query.idDanhMuc; // 👈 Lấy từ query string
+
+        const data = await get_all_thietbi_service(idDanhMuc); // 👈 Truyền tham số vào service
+
         return res.status(200).json({
             errCode: 0,
             message: 'Lấy dữ liệu thành công',
@@ -21,6 +24,7 @@ let get_thietbi = async (req, res) => {
         });
     }
 };
+
 let get_phong = async (req, res) => {
     try {
         const data = await get_all_phong_service();
@@ -40,18 +44,20 @@ let get_phong = async (req, res) => {
 };
 let get_danhmuc = async (req, res) => {
     try {
-        const data = await get_all_danhmuc_service();
+        const idDanhMuc = req.query.idDanhMuc; // 👈 Lấy từ query string
+
+        const data = await get_all_danhmuc_service(idDanhMuc);
         return res.status(200).json({
             errCode: 0,
             message: 'Lấy dữ liệu thành công',
             danhsachdanhmuc: data
         });
     } catch (error) {
-        console.error('Lỗi khi lấy dữ liệu phòng:', error);
+        console.error('Lỗi khi lấy dữ liệu danh mục:', error);
         return res.status(500).json({
             errCode: 3,
             message: 'Đã xảy ra lỗi phía server: ' + error.message,
-            danhsachphong: []
+            danhsachdanhmuc: []
         });
     }
 };
