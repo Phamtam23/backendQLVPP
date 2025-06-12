@@ -37,11 +37,11 @@ const create_user_service = async (data) => {
         const hashedPassword = await bcrypt.hash(defaultPassword, salthash);
 
         const sql = `
-            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai,maVaiTro, createdAt, updatedAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai,maVaiTro, createdAt)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
         const [result] = await poolPromise.query(sql, [
-            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai,7, new Date(), new Date() // Mặc định maVaiTro là 7
+            hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai,7, new Date() // Mặc định maVaiTro là 7
         ]);
 
         return {
