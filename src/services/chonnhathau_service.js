@@ -1,6 +1,7 @@
 const { poolPromise } = require('../router/conect'); // Kết nối MySQL
 
-const getTatCaNhaThau = async () => {
+
+const getTatCaNhaThau = async (req, res) => {
     try {
         const query = `
             SELECT nhathau.*, linhvuc.tenLinhVuc 
@@ -8,10 +9,18 @@ const getTatCaNhaThau = async () => {
             INNER JOIN linhvuc ON nhathau.maLinhVuc = linhvuc.maLinhVuc
         `;
         const [rows] = await poolPromise.query(query);
-        return rows;
+
+        return res.status(200).json({
+            errCode: 0,
+            message: "Lấy danh sách nhà thầu thành công",
+            danhsachnhathau: rows
+        });
     } catch (error) {
         console.error('Lỗi khi lấy danh sách nhà thầu:', error);
-        throw new Error("Không thể lấy dữ liệu nhà thầu.");
+        return res.status(500).json({
+            errCode: -1,
+            message: "Không thể lấy dữ liệu nhà thầu."
+        });
     }
 };
 

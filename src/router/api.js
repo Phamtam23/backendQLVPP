@@ -18,7 +18,8 @@ const { getChonTatCaNhaThau, getChiTietNhaThau } = require('../controller/chonnh
 const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
 const { getTatCaNhaThau } = require('../services/chonnhathau_service');
-
+// Import upload middleware
+const upload = require('../middleware/upload');
 // Xử lý đăng nhập
 routerAPI.post('/login', handlogin);
 
