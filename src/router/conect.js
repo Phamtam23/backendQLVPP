@@ -6,7 +6,7 @@ const config = {
     post:'3306',
     user: 'root',           // thay đổi theo thông tin MySQL
     password:'',
-    database: 'qlvpp',
+    database: 'qlvpp1',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
