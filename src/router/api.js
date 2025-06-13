@@ -1,16 +1,16 @@
 const express = require('express');
 const routerAPI = express.Router();
-<<<<<<< HEAD
-const { create_user,get_user,handlogin,get_account } = require('../controller/user_controller');
+
+
 const { get_dskehoach, get_chitietkehoach, get_dsyeucau, create_kehoach, update_kehoach, delete_kehoach } = require('../controller/kehoach_controller');
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller } = require('../controller/moithau.controller');
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller } = require('../controller/moithau.controller');
 const { create_phiendauthau_service } = require('../services/moithau_service');
-=======
+
 const { change_role, get_role, create_user, get_user, edit_user, delete_user, handlogin, get_account } = require('../controller/user_controller');
-const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
+
 const { create_yeucau } = require('../controller/guiyeucau_controller');
->>>>>>> b8e49bb690f299b90f1cc1f66272ad9c6388abb1
+
 
 const { get_thietbi, get_phong, get_danhmuc, create_thietbi, edit_thietbi, delete_thietbi } = require('../controller/thietbi_controller');
 
@@ -23,7 +23,7 @@ const { getChonTatCaNhaThau, getChiTietNhaThau } = require('../controller/chonnh
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
-const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
+const {  get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
 const { getTatCaNhaThau } = require('../services/chonnhathau_service');
 // Import upload middleware
