@@ -38,7 +38,7 @@ const create_user_service = async (data) => {
 
         const sql = `
             INSERT INTO taikhoan (hoTen, email, matKhau, chucVu, donViCongTac, trangThai,maVaiTro, createdAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
         const [result] = await poolPromise.query(sql, [
             hoTen, email, hashedPassword, chucVu, donViCongTac, trangThai,7, new Date() // Mặc định maVaiTro là 7
