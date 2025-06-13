@@ -83,10 +83,9 @@ let create_thietbi = async (req, res) => {
         // Gộp thông tin file vào data nếu cần
         const requestData = {
             ...req.body,
-            // Nếu là yêu cầu sửa chữa và có file, gán URL file vào hinhAnhSuaChua
-            hinhAnh: fileInfo.fileUrl
-            
+            hinhAnh: fileInfo ? fileInfo.fileUrl : ''
         };
+
 
         const message = await create_thietbi_service(requestData);
         

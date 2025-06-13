@@ -69,7 +69,7 @@ const create_thietbi_service = async (data) => {
     } = data;
 
     // Kiểm tra các trường bắt buộc chung
-    if (!tenThietBi || !maDanhMuc || !giaBan || !Hang || !xuatXu || !tenPhong || !trangThai) {
+    if (!tenThietBi) {
         return {
             errCode: 1,
             message: 'Thiếu một hoặc nhiều tham số đầu vào bắt buộc (chung)'
@@ -85,23 +85,23 @@ const create_thietbi_service = async (data) => {
         const [result] = await poolPromise.query(sql, [
             tenThietBi,
             maDanhMuc,
-            giaBan,
+            giaBan||null,
             viTriTrongPhong || null, // Nếu viTriTrongPhong không có giá trị, gán là null
             moTa || null, // Nếu moTa không có giá trị, gán là null
-            Hang,
-            xuatXu,
-            hinhAnh,
-            createdAt || new Date(),
-            tenPhong,
+            Hang || null,
+            xuatXu || null,
+            hinhAnh || null,
+            createdAt || null,
+            tenPhong || null,
             trangThai,
-            huongDanSuDung,
-            soLuong,
+            huongDanSuDung || null,
+            soLuong || null,
         ]);
 
         return {
             errCode: 0,
             message: 'Tạo thiết bị thành công',
-            insertId: result.insertId
+            maThietBi: result.insertId
         };
 
     } catch (e) {
