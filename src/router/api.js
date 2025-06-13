@@ -4,22 +4,20 @@ const { change_role, get_role, create_user, get_user, edit_user, delete_user, ha
 const { get_dskehoach, get_chitietkehoach } = require('../controller/kehoach_controller');
 const { create_yeucau } = require('../controller/guiyeucau_controller');
 
-const { get_thietbi, get_phong, get_danhmuc, create_thietbi,edit_thietbi,delete_thietbi } = require('../controller/thietbi_controller');
+const { get_thietbi, get_phong, get_danhmuc, create_thietbi, edit_thietbi, delete_thietbi } = require('../controller/thietbi_controller');
 
 const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
 const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
 const { get_linhvuc } = require('../controller/linhvuc_controller');
 const { getDashboardData } = require('../controller/dashboard_controller');
+
+const { getChonTatCaNhaThau, getChiTietNhaThau } = require('../controller/chonnhathau_controller')
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
 const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
-
-
-// Import upload middleware
-const upload = require('../middleware/upload');
-
+const { getTatCaNhaThau } = require('../services/chonnhathau_service');
 
 // Xử lý đăng nhập
 routerAPI.post('/login', handlogin);
@@ -41,8 +39,8 @@ routerAPI.post('/create-yeucau', upload.single('file'), create_yeucau);
 routerAPI.get('/get_thietbi', get_thietbi);
 routerAPI.get('/get_phong', get_phong);
 routerAPI.get('/get_danhmuc', get_danhmuc);
-routerAPI.post('/create-new-thietbi', upload.single('file'),create_thietbi);
-routerAPI.put('/edit-thietbi',upload.single('file'), edit_thietbi);
+routerAPI.post('/create-new-thietbi', upload.single('file'), create_thietbi);
+routerAPI.put('/edit-thietbi', upload.single('file'), edit_thietbi);
 routerAPI.delete('/delete-thietbi', delete_thietbi);
 
 
@@ -55,8 +53,8 @@ routerAPI.get('/getkehoach', get_chitietkehoach);
 
 //kế hoạch
 
-routerAPI.get('/getdskehoach',get_dskehoach)
-routerAPI.get('/getkehoach',get_chitietkehoach)
+routerAPI.get('/getdskehoach', get_dskehoach)
+routerAPI.get('/getkehoach', get_chitietkehoach)
 
 //Nha thau
 routerAPI.get('/getDsNhaThau', get_nhathau)
@@ -81,4 +79,9 @@ routerAPI.post('/themThongBao', create_thongbao)
 
 //Dashboard
 routerAPI.get('/dashboard', getDashboardData);
+
+// chon nha thau 
+routerAPI.get('/getChonNhaThau', getTatCaNhaThau)
+routerAPI.get('/getXemChiTietNhaThau/:id', getChiTietNhaThau)
+
 module.exports = routerAPI;
