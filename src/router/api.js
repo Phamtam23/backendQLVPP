@@ -13,9 +13,6 @@ const { getDashboardData } = require('../controller/dashboard_controller');
 //const auth=require('../midderwaler/auth')
 //const delay=require('../midderwaler/delay')
 //routerAPI.all("*",auth)
-
-// Import upload middleware
-const upload = require('../middleware/upload');
 const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
 

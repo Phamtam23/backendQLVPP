@@ -26,12 +26,14 @@ const create_yeucau_service = async (data) => {
         };
     }
 
-    // Kiểm tra theo loại yêu cầu
+    // Xử lý loại yêu cầu
+    let finalTenVatDung = tenVatDung || null;
+
     if (loaiYeuCau.toLowerCase() === 'mua sắm') {
-        if (!moTaChiTiet || !tenVatDung || !soLuong) {
+        if (!moTaChiTiet || !finalTenVatDung) {
             return {
                 errCode: 1,
-                message: 'Thiếu mô tả chi tiết, tên vật dụng hoặc số lượng cho yêu cầu mua sắm'
+                message: 'Thiếu mô tả chi tiết hoặc tên vật dụng cho yêu cầu mua sắm'
             };
         }
     } else if (loaiYeuCau.toLowerCase() === 'sửa chữa') {
@@ -41,7 +43,31 @@ const create_yeucau_service = async (data) => {
                 message: 'Thiếu mã sản phẩm hoặc tình trạng thiết bị cho yêu cầu sửa chữa'
             };
         }
-        // Lưu ý: hinhAnhSuaChua có thể được gán từ controller nếu có file upload
+
+        // Nếu tenVatDung không được truyền, lấy từ bảng thietbi
+        if (!finalTenVatDung) {
+            try {
+                const [rows] = await poolPromise.query(
+                    `SELECT tenThietBi FROM thietbi WHERE maThietBi = ?`,
+                    [maThietBi]
+                );
+
+                if (rows.length > 0) {
+                    finalTenVatDung = rows[0].tenThietBi;
+                } else {
+                    return {
+                        errCode: 1,
+                        message: 'Không tìm thấy thiết bị tương ứng với mã đã cho'
+                    };
+                }
+            } catch (e) {
+                console.error('Lỗi khi lấy tên thiết bị:', e);
+                return {
+                    errCode: 1,
+                    message: 'Lỗi hệ thống khi lấy tên thiết bị'
+                };
+            }
+        }
     } else {
         return {
             errCode: 1,
@@ -49,6 +75,7 @@ const create_yeucau_service = async (data) => {
         };
     }
 
+    // Tiến hành insert
     try {
         const sql = `
             INSERT INTO yeucau (
@@ -65,8 +92,8 @@ const create_yeucau_service = async (data) => {
             ngayDuyet || null,
             loaiYeuCau,
             moTaChiTiet || null,
-            tenVatDung || null,
-            soLuong || null,
+            finalTenVatDung,
+            soLuong || 1,
             maThietBi || null,
             tinhTrangThietBi || null,
             hinhAnhSuaChua || null,
@@ -84,6 +111,7 @@ const create_yeucau_service = async (data) => {
         throw new Error('Đã xảy ra lỗi khi tạo yêu cầu');
     }
 };
+
 
 module.exports = {
     create_yeucau_service,
