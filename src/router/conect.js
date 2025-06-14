@@ -5,7 +5,7 @@ const config = {
     host: 'localhost',
     port: '3306',
     user: 'root',           // thay đổi theo thông tin MySQL
-    password: '123456',
+    // password: '123456',
     database: 'qlvpp',
     waitForConnections: true,
     connectionLimit: 10,

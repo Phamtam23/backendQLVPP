@@ -4,6 +4,7 @@ const { poolPromise } = require('../router/conect');
 const get_thongbao_by_taikhoan_service = async (maTaiKhoanNhan) => {
     try {
         const query = `
+
             SELECT 
                 tb.*,
                 tk.hoTen as tenNguoiGui,
@@ -12,6 +13,7 @@ const get_thongbao_by_taikhoan_service = async (maTaiKhoanNhan) => {
             LEFT JOIN taikhoan tk ON tb.maTaiKhoan = tk.id
             WHERE tb.maTaiKhoanNhan = ?
             ORDER BY tb.ngayThongBao DESC
+
         `;
         const [rows] = await poolPromise.query(query, [maTaiKhoanNhan]);
         return rows;
