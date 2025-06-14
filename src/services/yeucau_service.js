@@ -17,6 +17,25 @@ const get_all_yeucau_service = async () => {
   }
 };
 
+const get_yeucau_bystate_service = async (trangThai) => {
+  try {
+    const query = `
+      SELECT yc.*, nv.hoTen AS tenNguoiTao, tb.tenThietBi
+      FROM yeucau yc
+      LEFT JOIN thietbi tb ON yc.mathietbi = tb.mathietbi 
+      LEFT JOIN taikhoan nv ON yc.maTaiKhoan = nv.id
+      WHERE yc.trangThai = ?
+    `;
+    const [rows] = await poolPromise.query(query, [trangThai]);
+    return rows;
+  } catch (e) {
+    console.error('Error occurred in get_yeucau_daduyet_service:', e);
+    throw new Error('Unable to retrieve filtered YeuCau');
+  }
+};
+
+
+
 //Duyệt yêu cầu: cập nhật trạng thái = "Đã duyệt", cập nhật ngày duyệt
 const duyet_yeucau_service = async (maYeuCau, ngayDuyet) => {
     try {
@@ -86,6 +105,7 @@ const delete_yeucau_service = async (maYeuCau) => {
 
 module.exports = {
     get_all_yeucau_service,
+    get_yeucau_bystate_service,
     get_chi_tiet_yeucau_service,
     duyet_yeucau_service,
     tu_choi_yeucau_service,

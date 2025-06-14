@@ -3,7 +3,7 @@ const routerAPI = express.Router();
 module.exports = routerAPI;
 
 
-const { get_dskehoach, get_chitietkehoach, get_dsyeucau, create_kehoach, update_kehoach, delete_kehoach } = require('../controller/kehoach_controller');
+const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach } = require('../controller/kehoach_controller');
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
 
 // Mời thầu

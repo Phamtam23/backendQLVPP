@@ -1,30 +1,41 @@
-const { get_all_yeucau_service, get_chi_tiet_yeucau_service, duyet_yeucau_service, tu_choi_yeucau_service, delete_yeucau_service } = require("../services/yeucau_service");
+const { get_all_yeucau_service, get_chi_tiet_yeucau_service, duyet_yeucau_service, tu_choi_yeucau_service, delete_yeucau_service,get_yeucau_bystate_service } = require("../services/yeucau_service");
 
-const get_dsyeucau=async(req,res)=>{
-    try
-    {
-        const data =await get_all_yeucau_service()
-        if(!data||data.length<0)
-        {
+const get_dsyeucau = async (req, res) => {
+    try {
+        const { trangThai } = req.query;
+
+        let data;
+        if (trangThai) {
+            // Gọi service lọc theo trạng thái
+            data = await get_yeucau_bystate_service(trangThai);
+        } else {
+            // Gọi service lấy tất cả yêu cầu
+            data = await get_all_yeucau_service();
+        }
+
+        if (!data || data.length === 0) {
             return res.status(400).json({
                 errCode: 1,
-                message: 'Loi khi lay danh sach yeu cau!',
-                users: []
+                message: 'Không có dữ liệu yêu cầu!',
+                danhsachyeucau: [],
             });
         }
+
         return res.status(200).json({
             errCode: 0,
             message: 'Lấy dữ liệu thành công',
-            danhsachyeucau: data
+            danhsachyeucau: data,
         });
 
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách yêu cầu:', error);
+        return res.status(500).json({
+            errCode: -1,
+            message: 'Lỗi server: ' + error.message,
+        });
     }
-    catch(error)
-    {
-        console.error('Error occurred:', error);
-        return res.status(500).send('An error occurred: ' + error.message);
-    }
-}
+};
+
 
 const get_chitietyeucau = async (req, res) => {
     try {
