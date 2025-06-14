@@ -6,8 +6,8 @@ const { create_yeucau } = require('../controller/guiyeucau_controller');
 
 const { get_thietbi, get_phong, get_danhmuc, create_thietbi,edit_thietbi,delete_thietbi } = require('../controller/thietbi_controller');
 
-const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
-const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
+const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau } = require('../controller/nhathau_controller');
+const { get_hopdong, get_hopdongById, create_hopdong, delete_hopdong, update_hopdong } = require('../controller/hopdong_controller');
 const { get_linhvuc } = require('../controller/linhvuc_controller');
 const { getDashboardData } = require('../controller/dashboard_controller');
 //const auth=require('../midderwaler/auth')
@@ -16,12 +16,8 @@ const { getDashboardData } = require('../controller/dashboard_controller');
 
 // Import upload middleware
 const upload = require('../middleware/upload');
-const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
+const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau, delete_yeucau } = require('../controller/yeucau_controller');
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
-
-
-// Import upload middleware
-const upload = require('../middleware/upload');
 
 
 // Xử lý đăng nhập
@@ -64,10 +60,15 @@ routerAPI.get('/getkehoach',get_chitietkehoach)
 //Nha thau
 routerAPI.get('/getDsNhaThau', get_nhathau)
 routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
+routerAPI.delete('/deleteNhaThau/:id', delete_nhathau)
+routerAPI.post('/createNhathau', createNhaThau);
+
 //Hop dong
 routerAPI.get('/getDsHopDong', get_hopdong)
 routerAPI.get('/getChiTietHopDong/:id', get_hopdongById)
-
+routerAPI.delete('/deleteHopDong/:id', delete_hopdong)
+routerAPI.post('/createHopDong', create_hopdong)
+routerAPI.put('/updateHopDong', update_hopdong)
 //Linh vuc
 routerAPI.get('/getDsLinhVuc', get_linhvuc)
 
@@ -76,6 +77,7 @@ routerAPI.get('/getDsYeuCau', get_dsyeucau)
 routerAPI.get('/getChiTietYeuCau/:id', get_chitietyeucau)
 routerAPI.post('/duyetYeuCau', duyet_yeucau)
 routerAPI.post('/tuChoiYeuCau', tu_choi_yeucau)
+routerAPI.delete('/deleteYeuCau/:id', delete_yeucau)
 
 //Thong bao
 routerAPI.get('/getDsThongBao/:id', get_dsthongbao)

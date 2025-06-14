@@ -1,4 +1,4 @@
-const { get_all_yeucau_service, get_chi_tiet_yeucau_service, duyet_yeucau_service, tu_choi_yeucau_service } = require("../services/yeucau_service");
+const { get_all_yeucau_service, get_chi_tiet_yeucau_service, duyet_yeucau_service, tu_choi_yeucau_service, delete_yeucau_service } = require("../services/yeucau_service");
 
 const get_dsyeucau=async(req,res)=>{
     try
@@ -82,9 +82,21 @@ const tu_choi_yeucau = async (req, res) => {
     }
 };
 
+const delete_yeucau = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await delete_yeucau_service(id);
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ errCode: -1, message: err.message });
+  }
+};
+
+
 module.exports={
     get_dsyeucau,
     tu_choi_yeucau,
     duyet_yeucau,
-    get_chitietyeucau
+    get_chitietyeucau,
+    delete_yeucau
 }
