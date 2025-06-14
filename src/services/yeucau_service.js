@@ -4,8 +4,9 @@ const { poolPromise } = require('../router/conect');
 const get_all_yeucau_service = async () => {
   try {
     const query = `
-      SELECT yc.*, nv.hoTen AS tenNguoiTao
+      SELECT yc.*, nv.hoTen AS tenNguoiTao, tb.tenThietBi
       FROM yeucau yc
+      LEFT JOIN thietbi tb ON yc.mathietbi = tb.mathietbi 
       LEFT JOIN taikhoan nv ON yc.maTaiKhoan = nv.id
     `;
     const [rows] = await poolPromise.query(query);
@@ -52,8 +53,9 @@ const tu_choi_yeucau_service = async (maYeuCau, ngayDuyet, lyDoTuChoi) => {
 const get_chi_tiet_yeucau_service = async (id) => {
   try {
     const query = `
-      SELECT yc.*, nv.hoTen AS tenNguoiTao
+      SELECT yc.*, nv.hoTen AS tenNguoiTao, tb.tenThietBi
       FROM yeucau yc
+      LEFT JOIN thietbi tb ON yc.mathietbi = tb.mathietbi 
       LEFT JOIN taikhoan nv ON yc.maTaiKhoan = nv.id
       WHERE yc.maYeuCau = ?
     `;
@@ -65,9 +67,27 @@ const get_chi_tiet_yeucau_service = async (id) => {
   }
 };
 
+const delete_yeucau_service = async (maYeuCau) => {
+  try {
+    const query = 'DELETE FROM yeucau WHERE maYeuCau = ?';
+    const [result] = await poolPromise.query(query, [maYeuCau]);
+
+    if (result.affectedRows === 0) {
+      return { errCode: 1, message: 'Không tìm thấy yêu cầu để xoá' };
+    }
+
+    return { errCode: 0, message: 'Xoá yêu cầu thành công' };
+  } catch (e) {
+    console.error('Lỗi khi xoá yêu cầu:', e);
+    throw new Error('Không thể xoá yêu cầu');
+  }
+};
+
+
 module.exports = {
     get_all_yeucau_service,
     get_chi_tiet_yeucau_service,
     duyet_yeucau_service,
-    tu_choi_yeucau_service
+    tu_choi_yeucau_service,
+    delete_yeucau_service
 };

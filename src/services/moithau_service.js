@@ -15,7 +15,7 @@ const { sendEmailService } = require('./email_services');
     {
         console.error('Error occurred in get_user_service:', e);
         throw new Error("Unable to retrieve users");
-    }
+    } 
   }
 
 
@@ -250,6 +250,27 @@ ${danhSachHTML}
   }
 };
 
+const update_trangthai_hopdong_moithau_service = async (maPhienDauThau) => {
+  try {
+    const query = `
+      UPDATE phiendauthau
+      SET trangThai = 'Đã tạo HD'
+      WHERE maPhienDauThau = ?
+    `;
+    const params = [maPhienDauThau];
+    const [result] = await poolPromise.query(query, params);
+
+    if (result.affectedRows === 0) {
+      throw new Error(`Phiên đấu thầu với mã ${maPhienDauThau} không tồn tại.`);
+    }
+
+    return { errCode: 0, message: 'Cập nhật thành công!' };
+  } catch (e) {
+    console.error('Lỗi khi cập nhật hợp đồng:', e);
+    throw new Error('Không thể cập nhật hợp đồng');
+  }
+};
+
 
 const generateMaGoiThau10 = (maLinhVuc) => {
   const now = new Date();
@@ -308,8 +329,8 @@ const creategoithau_service = async (
     get_dsgoithau_service,
    create_phiendauthau_service,
     get_dsnhathaulv_service,
+    update_trangthai_hopdong_moithau_service,
    creategoithau_service,
    update_goithau_service,
    get_chitietgoithau_service
-
   }

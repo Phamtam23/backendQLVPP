@@ -4,7 +4,8 @@ const { post } = require('./api');
 const config = {
     host: 'localhost',
     port: '3306',
-    user: 'root',           // thay đổi theo thông tin MySQL
+    user: 'root',  
+    password: 'root',
     // password: '123456',
     database: 'qlvpp',
     waitForConnections: true,

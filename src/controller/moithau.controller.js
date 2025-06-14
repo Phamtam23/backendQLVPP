@@ -141,6 +141,17 @@ const createphiendathau_controller = async (req, res) => {
   }
 };
 
+const update_moithau_taohopdong = async (req, res) => {
+  const { maPhienDauThau } = req.body;
+  console.log(maPhienDauThau);
+  
+  try {
+    const result = await update_trangthai_hopdong_moithau_service(maPhienDauThau);
+    return res.status(200).json(result);
+  } catch (e) {
+    return res.status(500).json({ errCode: -1, message: e.message });
+  }
+};
 
 
 
@@ -172,6 +183,7 @@ module.exports= {
     get_dsgoithau,
     get_dsnhathaulv,
    createphiendathau_controller,
+   update_moithau_taohopdong,
    createGoiThauController,
     get_chitietgoithau,
     suagoithau_controller

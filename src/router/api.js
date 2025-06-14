@@ -5,7 +5,12 @@ module.exports = routerAPI;
 
 const { get_dskehoach, get_chitietkehoach, get_dsyeucau, create_kehoach, update_kehoach, delete_kehoach } = require('../controller/kehoach_controller');
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller } = require('../controller/moithau.controller');
+
+// Mời thầu
+// const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
+
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
+
 
 // User
 const { change_role, get_role, create_user, get_user, edit_user, delete_user, handlogin, get_account } = require('../controller/user_controller');
@@ -16,11 +21,15 @@ const { create_yeucau } = require('../controller/guiyeucau_controller');
 // Thiết bị
 const { get_thietbi, get_phong, get_danhmuc, create_thietbi, edit_thietbi, delete_thietbi } = require('../controller/thietbi_controller');
 
+//const auth=require('../midderwaler/auth')
+//const delay=require('../midderwaler/delay')
+//routerAPI.all("*",auth)
+
 // Nhà thầu
-const { get_nhathau, get_nhathauById } = require('../controller/nhathau_controller');
+const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau } = require('../controller/nhathau_controller');
 
 // Hợp đồng
-const { get_hopdong, get_hopdongById } = require('../controller/hopdong_controller');
+const { get_hopdong, get_hopdongById, create_hopdong, delete_hopdong, update_hopdong } = require('../controller/hopdong_controller');
 
 // Lĩnh vực
 const { get_linhvuc } = require('../controller/linhvuc_controller');
@@ -37,7 +46,7 @@ const { getChonTatCaNhaThau, getChiTietNhaThau } = require('../controller/chonnh
 const { getTatCaNhaThau } = require('../services/chonnhathau_service');
 
 // Yêu cầu
-const {  get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../controller/yeucau_controller');
+const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau, delete_yeucau } = require('../controller/yeucau_controller');
 
 
 // Thông báo
@@ -55,7 +64,6 @@ const { getChonHopDong, getThongTinHopDongController } = require('../controller/
 
 // Import upload middleware
 const upload = require('../middleware/upload');
-
 // Xử lý đăng nhập
 routerAPI.post('/login', handlogin);
 
@@ -96,19 +104,29 @@ routerAPI.post('/xacnhannghiemthu', xacNhanNghiemThu);
 routerAPI.get('/detailnghiemthu', get_chitietnghiemthu);
 
 // Mời thầu
-routerAPI.get('/dsmoithau', get_dsmoithau);
-routerAPI.get('/dsgoithau', get_dsgoithau);
-routerAPI.get('/dsnhathaulv', get_dsnhathaulv);
-routerAPI.get('/detailmoithau', get_chitietmoithau);
-routerAPI.post('/taomoithau', createphiendathau_controller);
+routerAPI.put('/updatecreatedcontract', update_moithau_taohopdong);
 
-// Nhà thầu
-routerAPI.get('/getDsNhaThau', get_nhathau);
-routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById);
+//Nha thau
+routerAPI.get('/getDsNhaThau', get_nhathau)
+routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
+routerAPI.delete('/deleteNhaThau/:id', delete_nhathau)
+routerAPI.post('/createNhathau', createNhaThau);
 
-// Hợp đồng
-routerAPI.get('/getDsHopDong', get_hopdong);
-routerAPI.get('/getChiTietHopDong/:id', get_hopdongById);
+//Hop dong
+routerAPI.get('/getDsHopDong', get_hopdong)
+routerAPI.get('/getChiTietHopDong/:id', get_hopdongById)
+routerAPI.delete('/deleteHopDong/:id', delete_hopdong)
+routerAPI.post('/createHopDong', create_hopdong)
+routerAPI.put('/updateHopDong', update_hopdong)
+//Linh vuc
+routerAPI.get('/getDsLinhVuc', get_linhvuc)
+
+//Yeu cau
+routerAPI.get('/getDsYeuCau', get_dsyeucau)
+routerAPI.get('/getChiTietYeuCau/:id', get_chitietyeucau)
+routerAPI.post('/duyetYeuCau', duyet_yeucau)
+routerAPI.post('/tuChoiYeuCau', tu_choi_yeucau)
+routerAPI.delete('/deleteYeuCau/:id', delete_yeucau)
 
 //moithau
 routerAPI.get('/dsmoithau',get_dsmoithau)
@@ -123,12 +141,6 @@ routerAPI.put('/suagoithau', suagoithau_controller);
 
 // Lĩnh vực
 routerAPI.get('/getDsLinhVuc', get_linhvuc);
-
-// Yêu cầu
-routerAPI.get('/getDsYeuCau', get_dsyeucau);
-routerAPI.get('/getChiTietYeuCau/:id', get_chitietyeucau);
-routerAPI.post('/duyetYeuCau', duyet_yeucau);
-routerAPI.post('/tuChoiYeuCau', tu_choi_yeucau);
 
 
 // Thông báo
