@@ -43,10 +43,13 @@ const { get_dsyeucau, get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = requir
 const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
 
 // chon mua sam 
-const { getChonMuaSam } = require('../controller/duyetmuasam_controller')
+const { getChonMuaSam } = require('../controller/duyetmuasam_controller');
 
 //ngan sach
-const { getlistMuaSam, getlistthietbi } = require('../controller/duyetngansach_controller')
+const { getlistMuaSam, getlistthietbi } = require('../controller/duyetngansach_controller');
+
+// thanh toan hop dong 
+const { getChonHopDong, getThongTinHopDongController } = require('../controller/thanhtoanhopdong_controller');
 
 // Import upload middleware
 const upload = require('../middleware/upload');
@@ -128,7 +131,12 @@ routerAPI.get('/getXemChiTietNhaThau/:id', getChiTietNhaThau);
 
 // Chon mua sam 
 routerAPI.get('/getChonKeHoachMuaSam', getChonMuaSam);
+
 //ngan sach
 routerAPI.get('/getlistMuaSam', getlistMuaSam);
 routerAPI.get('/getlistthietbi/:maKeHoach', getlistthietbi);
+
+// thanh toans hop dong
+routerAPI.get('/getlisthopdong', getChonHopDong);
+routerAPI.get('/getThongTinHopDong/:maHopDong', getThongTinHopDongController);
 module.exports = routerAPI;
