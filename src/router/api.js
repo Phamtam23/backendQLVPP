@@ -45,6 +45,9 @@ const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../con
 // chon mua sam 
 const { getChonMuaSam } = require('../controller/duyetmuasam_controller')
 
+//ngan sach
+const { getlistMuaSam, getlistthietbi } = require('../controller/duyetngansach_controller')
+
 // Import upload middleware
 const upload = require('../middleware/upload');
 
@@ -125,5 +128,7 @@ routerAPI.get('/getXemChiTietNhaThau/:id', getChiTietNhaThau);
 
 // Chon mua sam 
 routerAPI.get('/getChonKeHoachMuaSam', getChonMuaSam);
-
+//ngan sach
+routerAPI.get('/getlistMuaSam', getlistMuaSam);
+routerAPI.get('/getlistthietbi/:maKeHoach', getlistthietbi);
 module.exports = routerAPI;

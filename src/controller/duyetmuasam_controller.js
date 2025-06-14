@@ -9,4 +9,9 @@ const getChonMuaSam = async (req, res) => {
         res.status(500).json({ errCode: 3, message: error.message, danhsachkehoach: [] });
     }
 };
-module.exports = { getChonMuaSam };
+
+
+module.exports = {
+    getChonMuaSam,
+
+};

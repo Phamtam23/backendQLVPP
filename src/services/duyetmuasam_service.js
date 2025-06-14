@@ -10,4 +10,8 @@ const getkehoachmuasam = async () => {
     return rows;
 };
 
-module.exports = { getkehoachmuasam };
+
+module.exports = {
+    getkehoachmuasam,
+
+};
