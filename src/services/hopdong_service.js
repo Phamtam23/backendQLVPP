@@ -70,7 +70,7 @@ const create_hopdong_service = async (data) => {
         thoiGianThucHien,
         thoiGianHoanThanh,
         maPhienDauThau,
-        trangThai,
+        trangThai
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 

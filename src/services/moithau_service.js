@@ -8,14 +8,14 @@ const { getkehoachchitiet_services } = require('./kehoach_service');
   const get_dsmoithau_service =async()=> {
      try
     {
-        const [data]=await poolPromise.query("select * from phiendauthau,kehoach where phiendauthau.maKeHoach=kehoach.maKeHoach");
+        const [data]=await poolPromise.query("select *,phiendauthau.trangThai as trangThai from phiendauthau,kehoach where phiendauthau.maKeHoach=kehoach.maKeHoach");
         return data
     }
     catch(e)
     {
         console.error('Error occurred in get_user_service:', e);
         throw new Error("Unable to retrieve users");
-    }
+    } 
   }
 
 
@@ -124,10 +124,32 @@ const create_phiendauthau_service = async (data) => {
   }
 };
 
+const update_trangthai_hopdong_moithau_service = async (maPhienDauThau) => {
+  try {
+    const query = `
+      UPDATE phiendauthau
+      SET trangThai = 'Đã tạo HD'
+      WHERE maPhienDauThau = ?
+    `;
+    const params = [maPhienDauThau];
+    const [result] = await poolPromise.query(query, params);
+
+    if (result.affectedRows === 0) {
+      throw new Error(`Phiên đấu thầu với mã ${maPhienDauThau} không tồn tại.`);
+    }
+
+    return { errCode: 0, message: 'Cập nhật thành công!' };
+  } catch (e) {
+    console.error('Lỗi khi cập nhật hợp đồng:', e);
+    throw new Error('Không thể cập nhật hợp đồng');
+  }
+};
+
   module.exports ={
     get_dsmoithau_service,
     get_chitietmoithau_service,
     get_dsgoithau_service,
    create_phiendauthau_service,
-    get_dsnhathaulv_service
+    get_dsnhathaulv_service,
+    update_trangthai_hopdong_moithau_service
   }

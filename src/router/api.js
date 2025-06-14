@@ -8,7 +8,7 @@ const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delet
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
 
 // Mời thầu
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller } = require('../controller/moithau.controller');
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
 const { create_phiendauthau_service } = require('../services/moithau_service');
 
 // User
@@ -102,6 +102,7 @@ routerAPI.get('/dsgoithau', get_dsgoithau);
 routerAPI.get('/dsnhathaulv', get_dsnhathaulv);
 routerAPI.get('/detailmoithau', get_chitietmoithau);
 routerAPI.post('/taomoithau', createphiendathau_controller);
+routerAPI.put('/updatecreatedcontract', update_moithau_taohopdong);
 
 //Nha thau
 routerAPI.get('/getDsNhaThau', get_nhathau)

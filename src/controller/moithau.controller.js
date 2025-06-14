@@ -1,4 +1,4 @@
-const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service } = require("../services/moithau_service");
+const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, update_trangthai_hopdong_moithau_service } = require("../services/moithau_service");
 
 
 
@@ -107,10 +107,23 @@ const createphiendathau_controller = async (req, res) => {
   }
 };
 
+const update_moithau_taohopdong = async (req, res) => {
+  const { maPhienDauThau } = req.body;
+  console.log(maPhienDauThau);
+  
+  try {
+    const result = await update_trangthai_hopdong_moithau_service(maPhienDauThau);
+    return res.status(200).json(result);
+  } catch (e) {
+    return res.status(500).json({ errCode: -1, message: e.message });
+  }
+};
+
 module.exports= {
     get_dsmoithau,
     get_chitietmoithau,
     get_dsgoithau,
     get_dsnhathaulv,
-   createphiendathau_controller
+   createphiendathau_controller,
+   update_moithau_taohopdong
 }
