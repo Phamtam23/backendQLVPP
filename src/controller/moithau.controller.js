@@ -1,4 +1,4 @@
-const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service } = require("../services/moithau_service");
+const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, creategoithau_service, get_chitietgoithau_service, update_goithau_service} = require("../services/moithau_service");
 
 
 
@@ -76,24 +76,58 @@ const get_chitietmoithau = async (req, res) => {
     }
 };
 
+
+const get_chitietgoithau = async (req, res) => {
+    try {
+        const maGoiThau = req.query.maGoiThau;
+        const data = await get_chitietgoithau_service(maGoiThau)
+        if (!data) {
+            return res.status(404).send("Not found");
+        }
+
+        return res.status(200).json(data);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+        return res.status(500).send('An error occurred: ' + error.message);
+    }
+};
+
+
+const suagoithau_controller = async (req, res) => {
+  const maGoiThau = req.query.maGoiThau;
+  const data = req.body;
+
+  try {
+    const result = await update_goithau_service(maGoiThau, data);
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      errCode: -1,
+      errMessage: error.message || "Lỗi server khi cập nhật gói thầu",
+    });
+  }
+};
 const createphiendathau_controller = async (req, res) => {
   try {
     const {
-      maKeHoach,
-      maGoiThau,
+      KeHoach,
+      GoiThau,
       duToanKinhPhi,
       ngayNopHoSo,
       ngayDauThau,
-      ngayKetThuc
+      ngayKetThuc,
+      nhathau
     } = req.body;
 
     const data = {
-      maKeHoach,
-      maGoiThau,
+      KeHoach,
+      GoiThau,
       duToanKinhPhi,
       ngayNopHoSo,
       ngayDauThau,
-      ngayKetThuc
+      ngayKetThuc,
+      nhathau
     };
 
     const result = await create_phiendauthau_service(data);
@@ -107,10 +141,38 @@ const createphiendathau_controller = async (req, res) => {
   }
 };
 
+
+
+
+const createGoiThauController = async (req, res) => {
+  try {
+    const { tenGoiThau, moTaChitiet, maLinhVuc } = req.body;
+
+    if (!tenGoiThau || !moTaChitiet || !maLinhVuc) {
+      return res.status(400).json({
+        errCode: 1,
+        message: 'Thiếu thông tin gói thầu',
+      });
+    }
+
+    const result = await creategoithau_service (tenGoiThau,moTaChitiet,maLinhVuc)
+    return res.status(200).json(result);
+  } catch (e) {
+    return res.status(500).json({
+      errCode: -1,
+      message: 'Lỗi server khi tạo gói thầu',
+    });
+  }
+};
+
+
 module.exports= {
     get_dsmoithau,
     get_chitietmoithau,
     get_dsgoithau,
     get_dsnhathaulv,
-   createphiendathau_controller
+   createphiendathau_controller,
+   createGoiThauController,
+    get_chitietgoithau,
+    suagoithau_controller
 }

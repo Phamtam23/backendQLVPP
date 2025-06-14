@@ -5,7 +5,7 @@ const get_thongbao_by_taikhoan_service = async (maTaiKhoanNhan) => {
     try {
         const query = `
             SELECT * FROM thongbao 
-            WHERE maTaiKhoanNhan = ? 
+            WHERE maTaiKhoan = ? 
             ORDER BY ngayThongBao DESC
         `;
         const [rows] = await poolPromise.query(query, [maTaiKhoanNhan]);
