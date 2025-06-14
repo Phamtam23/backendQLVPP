@@ -59,9 +59,26 @@ const create_thongbao_service = async (thongBao) => {
         throw new Error('Không thể thêm thông báo');
     }
 };
+const update_thongbao_service = async (maTaiKhoanNhan) => {
+    try {
+        const query = `
+            UPDATE thongbao
+            SET trangThai = 'Đã đọc'
+            WHERE maTaiKhoanNhan = ?
+        `;
+        const params = [maTaiKhoanNhan];
+        const [result] = await poolPromise.query(query, params);
+
+        return { message: `Đã cập nhật ${result.affectedRows || 0} thông báo` };
+    } catch (error) {
+        console.error('Lỗi khi cập nhật thông báo:', error);
+        throw new Error('Không thể cập nhật thông báo');
+    }
+};
 
 module.exports = {
     get_thongbao_by_taikhoan_service,
     get_thongbao_by_id_service,
     create_thongbao_service,
+    update_thongbao_service
 };

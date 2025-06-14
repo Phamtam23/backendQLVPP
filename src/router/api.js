@@ -41,7 +41,7 @@ const {  get_chitietyeucau, duyet_yeucau, tu_choi_yeucau } = require('../control
 
 
 // Thông báo
-const { get_dsthongbao, get_chitietthongbao, create_thongbao } = require('../controller/thongbao_controller');
+const { get_dsthongbao, get_chitietthongbao, create_thongbao, update_thongbao } = require('../controller/thongbao_controller');
 
 
 // chon mua sam 
@@ -135,7 +135,7 @@ routerAPI.post('/tuChoiYeuCau', tu_choi_yeucau);
 routerAPI.get('/getDsThongBao/:id', get_dsthongbao);
 routerAPI.get('/getChiTietThongBao/:id', get_chitietthongbao);
 routerAPI.post('/themThongBao', create_thongbao);
-
+routerAPI.put('/capnhat_thongbao', update_thongbao);
 // Dashboard
 routerAPI.get('/dashboard', getDashboardData);
 
