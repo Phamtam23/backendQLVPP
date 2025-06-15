@@ -87,7 +87,16 @@ const create_hopdong_service = async (data) => {
       trangThai
     ];
 
+    const query2 = `
+    UPDATE kehoach
+JOIN phiendauthau ON kehoach.maKeHoach = phiendauthau.maKehoach
+SET kehoach.trangThai = 'Đã tạo hợp đồng'
+WHERE phiendauthau.maPhienDauThau = '${maPhienDauThau}'
+     `
+     await poolPromise.query(query2);
     await poolPromise.query(query, params);
+   
+    
     return { errCode: 0, message: 'Tạo hợp đồng thành công!' };
   } catch (e) {
     console.error('Lỗi khi tạo hợp đồng:', e);

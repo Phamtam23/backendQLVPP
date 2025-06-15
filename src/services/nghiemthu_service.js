@@ -7,14 +7,14 @@ const { getkehoachchitiet_services } = require("./kehoach_service");
 const getnghiemthu_services = async () => {
   try {
     // Lấy tất cả bản ghi từ bảng kehoach
-    const [data] = await poolPromise.query("SELECT * FROM kehoach");
+    const [data] = await poolPromise.query("SELECT * FROM kehoach where trangThai='Đã tạo hợp đồng'");
 
     // Lấy thông tin nghiệm thu cho từng kế hoạch
     const dataResult = await Promise.all(
       data.map(async (item) => {
         // Truy vấn bảng nghiemthu để lấy thông tin nghiệm thu (nếu có)
         const [result] = await poolPromise.query(
-          `SELECT * FROM nghiemthu WHERE maKeHoach = ?`,
+          `SELECT * FROM nghiemthu WHERE  maKeHoach = ?`,
           [item.maKeHoach]
         );
 
@@ -55,21 +55,39 @@ const getnghiemthuchitiet_services = async (manghiemthu) => {
 
     // Truy vấn bảng nghiemthu để lấy thông tin nghiệm thu
     const [result] = await poolPromise.query(
-      `SELECT * FROM nghiemthu WHERE maKeHoach = ?`,
+      `
+      SELECT * 
+FROM nghiemthu nt
+WHERE nt.maKeHoach = ?
+      `,
       [item.maKeHoach]
     );
+
+  const [result1] = await poolPromise.query(
+  `
+  SELECT * 
+  FROM kehoach k
+  JOIN phiendauthau pdt ON k.maKeHoach = pdt.maKehoach
+  JOIN hopdong hd ON hd.maPhienDauThau = pdt.maPhienDauThau
+  JOIN nhathau ntau ON ntau.maNhaThau = pdt.maNhaThau
+  WHERE pdt.maKeHoach = ?
+  `,
+  [item.maKeHoach]
+);
 
     // Trả về dữ liệu có gắn thông tin nghiệm thu
     if (result.length > 0) {
       return {
         ...item,
         nghiemThu: result[0],
+        data:result1[0],
         daNghiemThu: true,
       };
     } else {
       return {
         ...item,
         nghiemThu: null,
+         data:result1[0],
         daNghiemThu: false,
       };
     }
@@ -88,11 +106,6 @@ const xacNhanNghiemThu_service = async (data, files) => {
     noiDung,
     ngayTao = new Date(),
   } = data;
-
-  
-
-  const hinhAnhNghiemThu = files ? files.map(file => file.filename).join(',') : '';
-
   const [existing] = await poolPromise.query(
     "SELECT * FROM nghiemthu WHERE maNghiemThu = ?",
     [maNghiemThu]
@@ -107,14 +120,14 @@ const xacNhanNghiemThu_service = async (data, files) => {
         noiDung = ?, 
         ngayTao = ?
       WHERE maNghiemThu = ?`,
-      [maKeHoach, hinhAnhNghiemThu, trangThai, noiDung, ngayTao, maNghiemThu]
+      [maKeHoach, "", trangThai, noiDung, ngayTao, maNghiemThu]
     );
   } else {
     await poolPromise.query(
       `INSERT INTO nghiemthu 
         (maNghiemThu, maKeHoach, hinhAnhNghiemThu, trangThai, noiDung, ngayTao) 
       VALUES (?, ?, ?, ?, ?, ?)`,
-      [maNghiemThu, maKeHoach, hinhAnhNghiemThu, trangThai, noiDung, ngayTao]
+      [maNghiemThu, maKeHoach, "", trangThai, noiDung, ngayTao]
     );
   }
 

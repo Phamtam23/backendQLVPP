@@ -48,42 +48,8 @@ const get_chitietnghiemthu = async (req, res) => {
 
 const xacNhanNghiemThu = async (req, res) => {
   try {
-    const { maNghiemThu, maKeHoach, trangThai, ngayTao } = req.body;
-
-    const fileMap = {}; // { maThietBi: [tenfile1, tenfile2, ...] }
-    if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        const match = file.fieldname.match(/^hinhAnhNghiemThu\[(.+?)\]$/); // match [maThietBi]
-        if (match) {
-          const maThietBi = match[1];
-          if (!fileMap[maThietBi]) fileMap[maThietBi] = [];
-          fileMap[maThietBi].push(file.filename);
-        }
-      });
-    }
-
-    // Gộp ghi chú từ body và ảnh từ fileMap lại thành `noiDung`
-    const noiDungArray = [];
-    for (const maThietBi in req.body) {
-      if (maThietBi.startsWith('ghiChu[')) {
-        const key = maThietBi.match(/ghiChu\[(.+?)\]/)[1];
-        const ghiChu = req.body[maThietBi];
-        const hinhAnh = fileMap[key] || [];
-        const tenAnh = hinhAnh.length > 0 ? hinhAnh.join(';') : ''; // dùng dấu `;` để phân biệt nhiều ảnh
-        noiDungArray.push(`${key},${ghiChu || ''},${tenAnh}`);
-      }
-    }
-
-    const data = {
-      maNghiemThu,
-      maKeHoach,
-      trangThai,
-      ngayTao,
-      noiDung: noiDungArray.join('|'),
-      hinhAnhNghiemThu: Object.values(fileMap).flat().join(','),
-    };
-
-    const result = await xacNhanNghiemThu_service(data);
+    
+    const result = await xacNhanNghiemThu_service( req.body);
     return res.status(200).json(result);
   } catch (error) {
     console.error('Lỗi xác nhận nghiệm thu:', error);
