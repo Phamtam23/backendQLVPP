@@ -8,7 +8,7 @@ const { sendEmailService } = require('./email_services');
   const get_dsmoithau_service =async()=> {
      try
     {
-        const [data]=await poolPromise.query("select maPhienDauThau,maGoiThau,phiendauthau.maKehoach,phiendauthau.trangThai,maNhaThau,ngayDauThau,ngayNopHoSo,ngayKetthuc,giaTrungThau,duToanKinhPhi,kehoach.maKeHoach,TongHopYeuCau,chuBuTu,thoiGianBatDau,thoiGianKetThuc,donVi,lyDoTuChoi,loaiyeucau,maTaiKhoan,chiPhiKeHoach from phiendauthau,kehoach where phiendauthau.maKeHoach=kehoach.maKeHoach");
+        const [data]=await poolPromise.query("select maPhienDauThau,maGoiThau,phiendauthau.maKehoach,phiendauthau.trangThai,maNhaThau,ngayDauThau,ngayNopHoSo,ngayKetthuc,giaTrungThau,duToanKinhPhi,kehoach.tenKeHoach,TongHopYeuCau,chuBuTu,thoiGianBatDau,thoiGianKetThuc,donVi,lyDoTuChoi,loaiyeucau,maTaiKhoan,chiPhiKeHoach from phiendauthau,kehoach where phiendauthau.maKeHoach=kehoach.maKeHoach");
         return data
     }
     catch(e)
@@ -374,6 +374,41 @@ const updatePhienDauThau_service = async (
   }
 };
 
+
+const deleteGoithau_service = async (maGoiThau) => {
+  try
+  {
+     await poolPromise.query(
+      `delete goithau 
+      WHERE maGoiThau = ?`,
+      [maGoiThau]
+    );
+  
+  return { message: "Xóa gói thầu thành công" };
+  }
+   catch(e)
+   {
+    console.log(e)
+   }
+};
+
+
+const deletePhienthau_service = async (maPhienThau) => {
+  try
+  {
+     await poolPromise.query(
+      `delete phienthau 
+      WHERE maPhienThau = ?`,
+      [maPhienThau]
+    );
+  
+  return { message: "Xóa phiên thầu thành công" };
+  }
+   catch(e)
+   {
+    console.log(e)
+   }
+};
   module.exports ={
     get_dsmoithau_service,
     get_chitietmoithau_service,
@@ -384,7 +419,9 @@ const updatePhienDauThau_service = async (
    creategoithau_service,
    update_goithau_service,
    get_chitietgoithau_service,
-   updatePhienDauThau_service
+   updatePhienDauThau_service,
+   deleteGoithau_service,
+   deletePhienthau_service
 
 
   }

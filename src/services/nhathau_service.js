@@ -149,7 +149,7 @@ const addNhathau_service = async (
     ];
 
     const [result] = await poolPromise.query(sql, values);
-    return result.insertId; // trả về ID nhà thầu mới
+    return  maNhaThau; // trả về ID nhà thầu mới
   } catch (error) {
     console.error(error);
     throw new Error('Lỗi khi thêm nhà thầu mới');

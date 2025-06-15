@@ -130,7 +130,7 @@ const createkehoach_service = async (
       chuDautu,
       tgbatdau,
       tgketthuc,
-      donVi,
+      "Trường Đại học Sư phạm Kỹ thuật Đà Nẵng",
       matk,
       loaiyc,
       trangThai,

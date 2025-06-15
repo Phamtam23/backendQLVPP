@@ -61,21 +61,7 @@ const addNhaThauController = async (req, res) => {
     } = req.body;
 
     // Kiểm tra đầu vào
-    if (
-      !tenNhaThau ||
-      !hoTenNguoiDaiDien ||
-      !chucVuNguoiDaiDien ||
-      !loaiHinhDoanhNGhiep ||
-      !diaChi ||
-      !soGiayPhepKinhDoanh ||
-      !Email ||
-      !linhVuc
-    ) {
-      return res.status(400).json({
-        errCode: 1,
-        message: 'Thiếu thông tin cần thiết để thêm nhà thầu',
-      });
-    }
+    
 
     // Gọi service để thêm nhà thầu
     const insertId = await addNhathau_service (
