@@ -36,7 +36,7 @@ const get_chitietkehoach = async (req, res) => {
     }
 };
 
-const get_dsyeucau=async(req,res)=>{
+const get_dsyeucautam=async(req,res)=>{
     try
     {
         const data =await getyeucau_services()
@@ -191,7 +191,7 @@ const tuchoi_ngansach = async (req, res) => {
 module.exports={
     get_dskehoach,
     get_chitietkehoach,
-    get_dsyeucau,
+    get_dsyeucautam,
    create_kehoach,
    update_kehoach,
    delete_kehoach,

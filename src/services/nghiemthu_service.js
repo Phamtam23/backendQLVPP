@@ -80,19 +80,18 @@ const getnghiemthuchitiet_services = async (manghiemthu) => {
 };
 
 
-const xacNhanNghiemThu_service = async (data) => {
+const xacNhanNghiemThu_service = async (data, files) => {
   const {
     maNghiemThu,
     maKeHoach,
-    hinhAnhNghiemThu = '',
     trangThai,
     noiDung,
     ngayTao = new Date(),
   } = data;
 
-  if (!maNghiemThu || !maKeHoach || !trangThai || !noiDung) {
-    throw new Error("Thiếu dữ liệu bắt buộc");
-  }
+  
+
+  const hinhAnhNghiemThu = files ? files.map(file => file.filename).join(',') : '';
 
   const [existing] = await poolPromise.query(
     "SELECT * FROM nghiemthu WHERE maNghiemThu = ?",
@@ -100,7 +99,6 @@ const xacNhanNghiemThu_service = async (data) => {
   );
 
   if (existing.length > 0) {
-    // Cập nhật nếu đã tồn tại
     await poolPromise.query(
       `UPDATE nghiemthu SET 
         maKeHoach = ?, 
@@ -112,7 +110,6 @@ const xacNhanNghiemThu_service = async (data) => {
       [maKeHoach, hinhAnhNghiemThu, trangThai, noiDung, ngayTao, maNghiemThu]
     );
   } else {
-    // Thêm mới nếu chưa có
     await poolPromise.query(
       `INSERT INTO nghiemthu 
         (maNghiemThu, maKeHoach, hinhAnhNghiemThu, trangThai, noiDung, ngayTao) 
@@ -126,8 +123,47 @@ const xacNhanNghiemThu_service = async (data) => {
 
 
 
+
+const capNhatNghiemThu_service = async (data) => {
+  const {
+    maNghiemThu,
+    trangThai,
+    noiDung,
+  } = data;
+
+    await poolPromise.query(
+      `UPDATE nghiemthu SET 
+        trangThai = ?, 
+        noiDung = ?
+      WHERE maNghiemthu = ?`,
+      [ trangThai, noiDung, maNghiemThu]
+    );
+  
+  return { message: "Xử lý nghiệm thu thành công" };
+};
+
+const deleteNghiemThu_service = async (maNghiemThu) => {
+  try
+  {
+     await poolPromise.query(
+      `delete nghiemthu 
+      WHERE maNghiemthu = ?`,
+      [maNghiemThu]
+    );
+  
+  return { message: "Xóa nghiệm thu thành công" };
+  }
+   catch(e)
+   {
+    console.log(e)
+   }
+};
+
+
 module.exports={
    getnghiemthu_services,
    getnghiemthuchitiet_services,
-   xacNhanNghiemThu_service
+   xacNhanNghiemThu_service,
+   capNhatNghiemThu_service,
+   deleteNghiemThu_service
 }

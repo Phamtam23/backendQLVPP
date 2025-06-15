@@ -3,13 +3,16 @@ const routerAPI = express.Router();
 module.exports = routerAPI;
 
 
+
+
 const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach, duyet_kehoach, tuchoi_kehoach, duyet_ngansach, tuchoi_ngansach } = require('../controller/kehoach_controller');
-const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
+const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu ,capNhatNghiemThu, delete_nghiemthu} = require('../controller/Nghiemthu');
+
 
 // Mời thầu
 // const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong,update_phiendauthau_controller, delete_goithau, delete_phienthau } = require('../controller/moithau.controller');
 
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong, update_phiendauthau_controller } = require('../controller/moithau.controller');
 
 
 
@@ -106,9 +109,10 @@ routerAPI.put('/ngansach/:maKeHoach/duyet', duyet_ngansach);
 routerAPI.put('/tuchoi_ngansach/:maKeHoach/duyet', tuchoi_ngansach);
 // Nghiệm thu
 routerAPI.get('/dsnghiemthu', get_dsnghiemthu);
-routerAPI.post('/xacnhannghiemthu', xacNhanNghiemThu);
+routerAPI.post('/xacnhannghiemthu', upload.any(), xacNhanNghiemThu);
 routerAPI.get('/detailnghiemthu', get_chitietnghiemthu);
-
+routerAPI.put('/capnhatnghiemthu', capNhatNghiemThu);
+routerAPI.delete('/nghiemthu/delete', delete_nghiemthu);
 
 
 
@@ -149,6 +153,10 @@ routerAPI.get('/chitietgoithau', get_chitietgoithau)
 routerAPI.put('/suagoithau', suagoithau_controller);
 routerAPI.put('/updatephienthau', update_phiendauthau_controller);
 
+routerAPI.delete('/goithau/delete', delete_goithau);
+
+routerAPI.delete('/phieuthau/delete', delete_phienthau);
+
 
 // Lĩnh vực
 routerAPI.get('/getDsLinhVuc', get_linhvuc);
@@ -165,7 +173,7 @@ routerAPI.get('/dashboard', getDashboardData);
 // Chọn nhà thầu
 routerAPI.get('/getChonNhaThau', getTatCaNhaThau);
 routerAPI.get('/getXemChiTietNhaThau/:id', getChiTietNhaThau);
-
+routerAPI.post('/addnhathautam', addNhaThauController);
 // Chon mua sam 
 routerAPI.get('/getChonKeHoachMuaSam', getChonMuaSam);
 

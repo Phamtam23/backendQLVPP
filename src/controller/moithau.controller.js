@@ -1,4 +1,4 @@
-const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, creategoithau_service, get_chitietgoithau_service, update_goithau_service, updatePhienDauThau_service} = require("../services/moithau_service");
+const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, creategoithau_service, get_chitietgoithau_service, update_goithau_service, updatePhienDauThau_service, deletePhienthau_service, deleteGoithau_service} = require("../services/moithau_service");
 
 
 
@@ -193,6 +193,39 @@ const update_phiendauthau_controller = async (req, res) => {
   }
 };
 
+
+const delete_phienthau= async (req, res) => {
+    try {
+        const maPhienThau = req.query.maPhienThau;
+        const data = await deletePhienthau_service(maPhienThau)
+        if (!data) {
+            return res.status(404).send("Not found");
+        }
+
+        return res.status(200).json(data);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+        return res.status(500).send('An error occurred: ' + error.message);
+    }
+};
+
+
+const delete_goithau= async (req, res) => {
+    try {
+        const maGoiThau = req.query.maGoiThau;
+        const data = await deleteGoithau_service(maGoiThau)
+        if (!data) {
+            return res.status(404).send("Not found");
+        }
+
+        return res.status(200).json(data);
+
+    } catch (error) {
+        console.error('Error occurred:', error);
+        return res.status(500).send('An error occurred: ' + error.message);
+    }
+};
 module.exports= {
     get_dsmoithau,
     get_chitietmoithau,
@@ -203,6 +236,8 @@ module.exports= {
    createGoiThauController,
     get_chitietgoithau,
     suagoithau_controller,
-    update_phiendauthau_controller
+    update_phiendauthau_controller,
+    delete_phienthau,
+    delete_goithau
    
 }
