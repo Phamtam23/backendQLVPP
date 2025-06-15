@@ -1,4 +1,4 @@
-const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, creategoithau_service, get_chitietgoithau_service, update_goithau_service} = require("../services/moithau_service");
+const { get_dsmoithau_service, get_chitietmoithau_service, get_dsgoithau_service, get_dsnhathaulv_service, create_phiendauthau_service, creategoithau_service, get_chitietgoithau_service, update_goithau_service, updatePhienDauThau_service} = require("../services/moithau_service");
 
 
 
@@ -108,6 +108,8 @@ const suagoithau_controller = async (req, res) => {
     });
   }
 };
+
+
 const createphiendathau_controller = async (req, res) => {
   try {
     const {
@@ -144,18 +146,20 @@ const createphiendathau_controller = async (req, res) => {
 
 
 
+
+
 const createGoiThauController = async (req, res) => {
   try {
-    const { tenGoiThau, moTaChitiet, maLinhVuc } = req.body;
+    const { tenGoiThau, moTaChiTiet, maLinhVuc } = req.body;
 
-    if (!tenGoiThau || !moTaChitiet || !maLinhVuc) {
+    if (!tenGoiThau || !maLinhVuc) {
       return res.status(400).json({
         errCode: 1,
         message: 'Thiếu thông tin gói thầu',
       });
     }
 
-    const result = await creategoithau_service (tenGoiThau,moTaChitiet,maLinhVuc)
+    const result = await creategoithau_service (tenGoiThau,moTaChiTiet,maLinhVuc)
     return res.status(200).json(result);
   } catch (e) {
     return res.status(500).json({
@@ -166,6 +170,18 @@ const createGoiThauController = async (req, res) => {
 };
 
 
+const update_phiendauthau_controller = async (req, res) => {
+ 
+  const maPhienThau = req.query.maPhienThau;
+  const { trangThai, maNhaThau,giaTrungThau } = req.body;
+  try {
+    const result = await updatePhienDauThau_service(maPhienThau, trangThai, maNhaThau,giaTrungThau);
+    res.json({ success: true, result });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 module.exports= {
     get_dsmoithau,
     get_chitietmoithau,
@@ -174,5 +190,7 @@ module.exports= {
    createphiendathau_controller,
    createGoiThauController,
     get_chitietgoithau,
-    suagoithau_controller
+    suagoithau_controller,
+    update_phiendauthau_controller
+   
 }
