@@ -225,12 +225,71 @@ const deletekehoahc_services = async (maKeHoach) => {
     }
 };
 
-
+const duyetkehoach_services = async (maKeHoach) => {
+  try {
+    const sql = `
+      UPDATE kehoach
+      SET trangThai = 'Đã duyệt'
+      WHERE maKeHoach = ?
+    `;
+    const [result] = await poolPromise.query(sql, [maKeHoach]);
+    return result;
+  } catch (error) {
+    console.error('❌ Lỗi trong duyetkehoach_services:', error);
+    throw new Error('Không thể duyệt kế hoạch');
+  }
+};
+const tuchoikehoach_services = async (maKeHoach) => {
+  try {
+    const sql = `
+      UPDATE kehoach
+      SET trangThai = 'Từ chối'
+      WHERE maKeHoach = ?
+    `;
+    const [result] = await poolPromise.query(sql, [maKeHoach]);
+    return result;
+  } catch (error) {
+    console.error('❌ Lỗi trong duyetkehoach_services:', error);
+    throw new Error('Không thể duyệt kế hoạch');
+  }
+};
+const duyetngansach_services = async (maKeHoach) => {
+  try {
+    const sql = `
+      UPDATE kehoach
+      SET trangThai = 'Đã duyệt ngân sách'
+      WHERE maKeHoach = ?
+    `;
+    const [result] = await poolPromise.query(sql, [maKeHoach]);
+    return result;
+  } catch (error) {
+    console.error('❌ Lỗi trong duyetngansach_services:', error);
+    throw new Error('Không thể duyệt ngân sách');
+  }
+};
+const tuchoingansach_services = async (maKeHoach) => {
+  try {
+    const sql = `
+      UPDATE kehoach
+      SET trangThai = 'Từ chối ngân sách'
+      WHERE maKeHoach = ?
+    `;
+    const [result] = await poolPromise.query(sql, [maKeHoach]);
+    return result;
+  } catch (error) {
+    console.error('❌ Lỗi trong tuchoingansach_services:', error);
+    throw new Error('Không thể duyệt ngân sách');
+  }
+};
 module.exports={
    getkehoach_services,
    getkehoachchitiet_services,
    getyeucau_services,
    createkehoach_service,
    updateKeHoach_service,
-   deletekehoahc_services
+   deletekehoahc_services,
+   duyetkehoach_services,
+   tuchoikehoach_services,
+   duyetngansach_services,
+   tuchoingansach_services,
 }

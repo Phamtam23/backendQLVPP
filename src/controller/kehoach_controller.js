@@ -1,4 +1,4 @@
-const { getkehoach_services, getkehoachchitiet_services, getyeucau_services, createkehoach_service, updateKeHoach_service, deletekehoahc_services } = require("../services/kehoach_service");
+const { getkehoach_services, getkehoachchitiet_services, getyeucau_services, createkehoach_service, updateKeHoach_service, deletekehoahc_services,duyetkehoach_services,tuchoikehoach_services,duyetngansach_services,tuchoingansach_services } = require("../services/kehoach_service");
 
 const get_dskehoach=async(req,res)=>{
     try
@@ -145,14 +145,58 @@ const delete_kehoach = async (req, res) => {
         return res.status(500).send('Đã xảy ra lỗi khi cập nhật kế hoạch');
     }
 };
+// controller
+const duyet_kehoach = async (req, res) => {
+  try {
+    const maKeHoach = req.params.maKeHoach;
+    await duyetkehoach_services(maKeHoach);
+    return res.status(200).send('Duyệt kế hoạch thành công');
+  } catch (error) {
+    console.error('Lỗi duyệt kế hoạch:', error);
+    return res.status(500).send('Lỗi server khi duyệt kế hoạch');
+  }
+};
+const tuchoi_kehoach = async (req, res) => {
+  try {
+    const maKeHoach = req.params.maKeHoach;
+    await tuchoikehoach_services(maKeHoach);
+    return res.status(200).send('Từ chối kế hoạch thành công');
+  } catch (error) {
+    console.error('Lỗi duyệt kế hoạch:', error);
+    return res.status(500).send('Lỗi server khi duyệt kế hoạch');
+  }
+};
 
-
+// controller
+const duyet_ngansach = async (req, res) => {
+  try {
+    const maKeHoach = req.params.maKeHoach;
+    await duyetngansach_services(maKeHoach);
+    return res.status(200).send('Duyệt ngân sách thành công');
+  } catch (error) {
+    console.error('Lỗi duyệt kế hoạch:', error);
+    return res.status(500).send('Lỗi server khi duyệt ngân sách');
+  }
+};
+const tuchoi_ngansach = async (req, res) => {
+  try {
+    const maKeHoach = req.params.maKeHoach;
+    await tuchoingansach_services(maKeHoach);
+    return res.status(200).send('Từ chối ngân sách thành công');
+  } catch (error) {
+    console.error('Lỗi duyệt kế hoạch:', error);
+    return res.status(500).send('Lỗi server khi duyệt kế hoạch');
+  }
+};
 module.exports={
     get_dskehoach,
     get_chitietkehoach,
     get_dsyeucau,
    create_kehoach,
    update_kehoach,
-   delete_kehoach
-   
+   delete_kehoach,
+   duyet_kehoach,
+    tuchoi_kehoach,
+    duyet_ngansach,
+    tuchoi_ngansach,
 }

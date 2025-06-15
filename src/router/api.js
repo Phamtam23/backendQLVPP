@@ -3,7 +3,7 @@ const routerAPI = express.Router();
 module.exports = routerAPI;
 
 
-const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach } = require('../controller/kehoach_controller');
+const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach,duyet_kehoach,tuchoi_kehoach,duyet_ngansach,tuchoi_ngansach } = require('../controller/kehoach_controller');
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
 
 // Mời thầu
@@ -100,7 +100,10 @@ routerAPI.get('/getkehoach', get_chitietkehoach);
 routerAPI.post('/kehoach/creater', create_kehoach);
 routerAPI.put('/kehoach/update', update_kehoach);
 routerAPI.delete('/kehoach/delete', delete_kehoach);
-
+routerAPI.put('/kehoach/:maKeHoach/duyet', duyet_kehoach);
+routerAPI.put('/tuchoi_kehoach/:maKeHoach/duyet', tuchoi_kehoach);
+routerAPI.put('/ngansach/:maKeHoach/duyet', duyet_ngansach);
+routerAPI.put('/tuchoi_ngansach/:maKeHoach/duyet', tuchoi_ngansach);
 // Nghiệm thu
 routerAPI.get('/dsnghiemthu', get_dsnghiemthu);
 routerAPI.post('/xacnhannghiemthu', xacNhanNghiemThu);
