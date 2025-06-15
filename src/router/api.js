@@ -3,13 +3,13 @@ const routerAPI = express.Router();
 module.exports = routerAPI;
 
 
-const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach,duyet_kehoach,tuchoi_kehoach,duyet_ngansach,tuchoi_ngansach } = require('../controller/kehoach_controller');
+const { get_dskehoach, get_chitietkehoach, create_kehoach, update_kehoach, delete_kehoach, duyet_kehoach, tuchoi_kehoach, duyet_ngansach, tuchoi_ngansach } = require('../controller/kehoach_controller');
 const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../controller/Nghiemthu');
 
 // Mời thầu
 // const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
 
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong,update_phiendauthau_controller } = require('../controller/moithau.controller');
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong, update_phiendauthau_controller } = require('../controller/moithau.controller');
 
 
 
@@ -28,7 +28,7 @@ const { get_thietbi, get_phong, get_danhmuc, create_thietbi, edit_thietbi, delet
 
 // Nhà thầu
 
-const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau,addNhaThauController } = require('../controller/nhathau_controller');
+const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau, addNhaThauController } = require('../controller/nhathau_controller');
 
 
 // Hợp đồng
@@ -63,7 +63,7 @@ const { getChonMuaSam } = require('../controller/duyetmuasam_controller');
 const { getlistMuaSam, getlistthietbi } = require('../controller/duyetngansach_controller');
 
 // thanh toan hop dong 
-const { getChonHopDong, getThongTinHopDongController } = require('../controller/thanhtoanhopdong_controller');
+const { getChonHopDong, getThongTinHopDongController, updateTrangThaiHopDongController } = require('../controller/thanhtoanhopdong_controller');
 
 // Import upload middleware
 const upload = require('../middleware/upload');
@@ -139,13 +139,13 @@ routerAPI.post('/tuChoiYeuCau', tu_choi_yeucau)
 routerAPI.delete('/deleteYeuCau/:id', delete_yeucau)
 
 //moithau
-routerAPI.get('/dsmoithau',get_dsmoithau)
-routerAPI.get('/dsgoithau',get_dsgoithau)
-routerAPI.get('/dsnhathaulv',get_dsnhathaulv)
-routerAPI.get('/detailmoithau',get_chitietmoithau)
-routerAPI.post('/taomoithau',createphiendathau_controller)
-routerAPI.post('/taogoithau',createGoiThauController)
-routerAPI.get('/chitietgoithau',get_chitietgoithau)
+routerAPI.get('/dsmoithau', get_dsmoithau)
+routerAPI.get('/dsgoithau', get_dsgoithau)
+routerAPI.get('/dsnhathaulv', get_dsnhathaulv)
+routerAPI.get('/detailmoithau', get_chitietmoithau)
+routerAPI.post('/taomoithau', createphiendathau_controller)
+routerAPI.post('/taogoithau', createGoiThauController)
+routerAPI.get('/chitietgoithau', get_chitietgoithau)
 routerAPI.put('/suagoithau', suagoithau_controller);
 routerAPI.put('/updatephienthau', update_phiendauthau_controller);
 
@@ -176,4 +176,6 @@ routerAPI.get('/getlistthietbi/:maKeHoach', getlistthietbi);
 // thanh toans hop dong
 routerAPI.get('/getlisthopdong', getChonHopDong);
 routerAPI.get('/getThongTinHopDong/:maHopDong', getThongTinHopDongController);
+routerAPI.put('/updateTrangThaiHopDong', updateTrangThaiHopDongController);
+
 module.exports = routerAPI;

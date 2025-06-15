@@ -1,4 +1,4 @@
-const { getdanhsachhopdong, getThongTinHopDong } = require('../services/thanhtoanhopdong_service');
+const { getdanhsachhopdong, getThongTinHopDong, updateTrangThaiHopDong } = require('../services/thanhtoanhopdong_service');
 
 const getChonHopDong = async (req, res) => {
     try {
@@ -26,9 +26,23 @@ const getThongTinHopDongController = async (req, res) => {
         res.status(500).json({ errCode: 3, message: error.message, thongTinHopDong: [] });
     }
 };
+const updateTrangThaiHopDongController = async (req, res) => {
+    try {
+        const { maHopDong, trangThai } = req.body;
+        if (!maHopDong || !trangThai) {
+            return res.status(400).json({ errCode: 1, message: 'Thiếu thông tin cần thiết' });
+        }
 
+        const result = await updateTrangThaiHopDong(maHopDong, trangThai);
+        res.status(200).json({ errCode: 0, message: 'Cập nhật trạng thái thành công', result });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật trạng thái hợp đồng:', error);
+        res.status(500).json({ errCode: 3, message: error.message });
+    }
+};
 
 module.exports = {
     getChonHopDong,
-    getThongTinHopDongController
+    getThongTinHopDongController,
+    updateTrangThaiHopDongController
 };
