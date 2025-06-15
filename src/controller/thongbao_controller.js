@@ -1,7 +1,8 @@
 const {
     get_thongbao_by_taikhoan_service,
     get_thongbao_by_id_service,
-    create_thongbao_service
+    create_thongbao_service,
+    update_thongbao_service
 } = require("../services/thongbao_service");
 
 // 1. Lấy danh sách thông báo theo mã tài khoản
@@ -71,9 +72,34 @@ const create_thongbao = async (req, res) => {
         return res.status(500).send('Đã xảy ra lỗi: ' + error.message);
     }
 };
+const update_thongbao = async (req, res) => {
+    try {
+        const { id } = req.body; // id là mã tài khoản nhận
+        if (!id) {
+            return res.status(400).json({
+                errCode: 1,
+                message: 'Thiếu mã tài khoản nhận',
+            });
+        }
+
+        const result = await update_thongbao_service(id);
+
+        return res.status(200).json({
+            errCode: 0,
+            message: result.message || 'Cập nhật thành công',
+        });
+    } catch (error) {
+        console.error('Lỗi khi cập nhật thông báo:', error);
+        return res.status(500).json({
+            errCode: -1,
+            message: 'Lỗi server: ' + error.message,
+        });
+    }
+};
 
 module.exports = {
     get_dsthongbao,
     get_chitietthongbao,
-    create_thongbao
+    create_thongbao,
+    update_thongbao
 };

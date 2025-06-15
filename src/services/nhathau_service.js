@@ -33,6 +33,76 @@ const get_nhathau_by_id_service = async (id) => {
     }
 };
 
+const delete_nhathau_service = async (maNhaThau) => {
+  try {
+    const query = 'DELETE FROM nhathau WHERE maNhaThau = ?';
+    const params = [maNhaThau];
+
+    const [result] = await poolPromise.query(query, params);
+
+    if (result.affectedRows === 0) {
+      return { errCode: 1, message: 'Không tìm thấy nhà thầu để xoá' };
+    }
+
+    return { errCode: 0, message: 'Xoá nhà thầu thành công' };
+  } catch (e) {
+    console.error('Lỗi khi xoá nhà thầu:', e);
+    throw new Error('Không thể xoá nhà thầu');
+  }
+};
+
+const create_nhathau_service = async (data) => {
+  const {
+    maNhaThau,
+    maSoThue,
+    noiCap,
+    tenNhaThau,
+    tenVietTat,
+    loaiHinhDoanhNghiep,
+    soGiayPhepKinhDoanh,
+    diaChi,
+    website,
+    hoTenNguoiDaiDien,
+    chucVuNguoiDaiDien,
+    soDienDanh,
+    ngaySinh,
+    maLinhVuc
+  } = data;
+
+  try {
+    const query = `
+      INSERT INTO nhathau (
+        maNhaThau, maSoThue, noiCap, tenNhaThau, tenVietTat, loaiHinhDoanhNghiep,
+        soGiayPhepKinhDoanh, diaChi, website, hoTenNguoiDaiDien, chucVuNguoiDaiDien,
+        soDienDanh, ngaySinh, maLinhVuc
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+      maNhaThau,
+      maSoThue,
+      noiCap,
+      tenNhaThau,
+      tenVietTat,
+      loaiHinhDoanhNghiep,
+      soGiayPhepKinhDoanh,
+      diaChi,
+      website,
+      hoTenNguoiDaiDien,
+      chucVuNguoiDaiDien,
+      soDienDanh,
+      ngaySinh,
+      maLinhVuc
+    ];
+
+    await poolPromise.query(query, params);
+    return { errCode: 0, message: 'Thêm nhà thầu thành công!' };
+  } catch (e) {
+    console.error('Lỗi khi thêm nhà thầu:', e);
+    throw new Error('Không thể thêm nhà thầu');
+  }
+};
+
 
 const addNhathau_service = async (
   tenNhaThau,
@@ -90,5 +160,8 @@ const addNhathau_service = async (
 module.exports = {
     get_all_nhathau_service,
     get_nhathau_by_id_service,
-    addNhathau_service
+    addNhathau_service,
+    delete_nhathau_service,
+    create_nhathau_service
+
 };
