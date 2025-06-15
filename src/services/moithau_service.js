@@ -27,7 +27,7 @@ const get_chitietmoithau_service = async (maPhienDauThau) => {
     console.log("🔍 Đang tìm phiên đấu thầu với mã:", maPhienDauThau);
 
     const [rows] = await poolPromise.query(`
-      SELECT * 
+      SELECT maPhienDauThau,phiendauthau.maGoiThau,maKehoach,phiendauthau.trangThai,phiendauthau.maNhaThau,ngayDauThau,ngayNopHoSo,ngayKetthuc,giaTrungThau,duToanKinhPhi,tenGoiThau,moTaChiTiet,ngayTao,goithau.maLinhVuc,tenLinhVuc,nhathau.*
       FROM phiendauthau
       JOIN goithau ON phiendauthau.maGoiThau = goithau.maGoiThau
       JOIN linhvuc ON goithau.maLinhVuc = linhvuc.maLinhVuc
@@ -322,6 +322,57 @@ const creategoithau_service = async (
   }
 };
 
+const updatePhienDauThau_service = async (
+  maPhienThau,
+  trangThai,
+  maNhaThau = null,
+  giaTrungThau = null
+) => {
+  try {
+    // Validate inputs
+    if (!maPhienThau || !trangThai) {
+      throw new Error('maPhienThau và trangThai là bắt buộc');
+    }
+    if (trangThai === 'Hoàn thành' && maNhaThau && giaTrungThau !== null && (isNaN(giaTrungThau) || giaTrungThau < 0)) {
+      throw new Error('giaTrungThau phải là một số không âm khi trạng thái là Hoàn thành');
+    }
+
+    let sql = `
+      UPDATE phiendauthau
+      SET trangThai = ?
+    `;
+    const values = [trangThai];
+
+    if (trangThai === 'Hoàn thành') {
+      if (maNhaThau) {
+        sql += `, maNhaThau = ?`;
+        values.push(maNhaThau);
+      }
+      if (giaTrungThau !== null) {
+        sql += `, giaTrungThau = ?`;
+        values.push(Number(giaTrungThau));
+      }
+    }
+
+    sql += ` WHERE maPhienDauThau = ?`;
+    values.push(maPhienThau);
+
+    const [result] = await poolPromise.query(sql, values);
+    
+    if (result.affectedRows === 0) {
+      throw new Error('Không tìm thấy phiên đấu thầu với maPhienThau cung cấp');
+    }
+
+    return {
+      success: true,
+      message: 'Cập nhật phiên đấu thầu thành công',
+      affectedRows: result.affectedRows
+    };
+  } catch (error) {
+    console.error('Lỗi khi cập nhật phiên đấu thầu:', error);
+    throw new Error(error.message || 'Lỗi khi cập nhật phiên đấu thầu');
+  }
+};
 
   module.exports ={
     get_dsmoithau_service,
@@ -332,5 +383,8 @@ const creategoithau_service = async (
     update_trangthai_hopdong_moithau_service,
    creategoithau_service,
    update_goithau_service,
-   get_chitietgoithau_service
+   get_chitietgoithau_service,
+   updatePhienDauThau_service
+
+
   }

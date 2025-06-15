@@ -9,7 +9,8 @@ const { get_dsnghiemthu, get_chitietnghiemthu, xacNhanNghiemThu } = require('../
 // Mời thầu
 // const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, creategoithau, createphiendathau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
 
-const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong } = require('../controller/moithau.controller');
+const { get_dsmoithau, get_chitietmoithau, get_dsgoithau, get_dsnhathaulv, createphiendathau_controller, createGoiThauController, get_chitietgoithau, suagoithau_controller, update_moithau_taohopdong,update_phiendauthau_controller } = require('../controller/moithau.controller');
+
 
 
 // User
@@ -26,7 +27,9 @@ const { get_thietbi, get_phong, get_danhmuc, create_thietbi, edit_thietbi, delet
 //routerAPI.all("*",auth)
 
 // Nhà thầu
-const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau } = require('../controller/nhathau_controller');
+
+const { get_nhathau, get_nhathauById, delete_nhathau, createNhaThau,addNhaThauController } = require('../controller/nhathau_controller');
+
 
 // Hợp đồng
 const { get_hopdong, get_hopdongById, create_hopdong, delete_hopdong, update_hopdong } = require('../controller/hopdong_controller');
@@ -103,6 +106,9 @@ routerAPI.get('/dsnghiemthu', get_dsnghiemthu);
 routerAPI.post('/xacnhannghiemthu', xacNhanNghiemThu);
 routerAPI.get('/detailnghiemthu', get_chitietnghiemthu);
 
+
+
+
 // Mời thầu
 routerAPI.put('/updatecreatedcontract', update_moithau_taohopdong);
 
@@ -111,6 +117,7 @@ routerAPI.get('/getDsNhaThau', get_nhathau)
 routerAPI.get('/getChiTietNhaThau/:id', get_nhathauById)
 routerAPI.delete('/deleteNhaThau/:id', delete_nhathau)
 routerAPI.post('/createNhathau', createNhaThau);
+
 
 //Hop dong
 routerAPI.get('/getDsHopDong', get_hopdong)
@@ -137,6 +144,7 @@ routerAPI.post('/taomoithau',createphiendathau_controller)
 routerAPI.post('/taogoithau',createGoiThauController)
 routerAPI.get('/chitietgoithau',get_chitietgoithau)
 routerAPI.put('/suagoithau', suagoithau_controller);
+routerAPI.put('/updatephienthau', update_phiendauthau_controller);
 
 
 // Lĩnh vực
