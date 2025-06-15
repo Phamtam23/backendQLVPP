@@ -4,9 +4,9 @@ const { post } = require('./api');
 const config = {
     host: 'localhost',
     port: '3306',
-    user: 'root',  
-    // password: 'root',
-    // password: '123456',
+    user: 'root',
+    password: '123456',
+
     database: 'qlvpp',
     waitForConnections: true,
     connectionLimit: 10,
