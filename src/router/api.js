@@ -109,7 +109,7 @@ routerAPI.put('/ngansach/:maKeHoach/duyet', duyet_ngansach);
 routerAPI.put('/tuchoi_ngansach/:maKeHoach/duyet', tuchoi_ngansach);
 // Nghiệm thu
 routerAPI.get('/dsnghiemthu', get_dsnghiemthu);
-routerAPI.post('/xacnhannghiemthu', upload.any(), xacNhanNghiemThu);
+routerAPI.post('/xacnhannghiemthu',xacNhanNghiemThu);
 routerAPI.get('/detailnghiemthu', get_chitietnghiemthu);
 routerAPI.put('/capnhatnghiemthu', capNhatNghiemThu);
 routerAPI.delete('/nghiemthu/delete', delete_nghiemthu);
